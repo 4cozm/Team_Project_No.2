@@ -1,0 +1,44 @@
+@import "CSS/colors.css";
+
+body {
+  background-color: var(--backGround);
+}
+
+.button {
+  background-color: var(--backGround);
+  color: var(--pinkDark);
+}
+
+.container-fluid{
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 2px solid #D96C9F;
+  width: 100%;
+  height: 60px;
+}
+
+/*영화 포스터, 간단한 내용 보여주기*/
+.movie-poster {
+  width: 100%;
+  height: 500px;
+  background-color: var(--pinkLight);
+}
+.poster-title {
+  
+}
+.age-img {
+  width: 40px;
+  height: auto;
+}
+.movie-year {
+  display: inline-block;
+
+}
+.img-box {
+  width: 297px;
+  height: 420px;
+  background-color: aqua;
+  border-radius: 10px;
+  float: right;
+}
