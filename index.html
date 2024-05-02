@@ -6,8 +6,47 @@
     <title>영화 페이지 만들기</title>
     <link rel="stylesheet" href="CSS/reset.css"><!--reset.css링크-->
     <link rel="stylesheet" href="index.css"><!--메인 CSS 파일 링크-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> <!--돋보기 아이콘 링크-->
 </head>
 <body>
+  
+ <header class = "movie_title">
+  <div class="serch_box">
+    <img src="" alt="로고 이미지">
+    <input class="movie_text" type="text" placeholder="영화 제목을 입력하시오.">
+    <button id="search_btn" class="bx bx-search-alt"></button>
+  </div>
+</header>
+
+<div class="poster_view">
+  <div class="poster_title">
+    <h1 class="poster">엘리멘탈</h1>
+    <img src="" alt="연령고지 이미지">
+    <p class="">2023.06.14</p>
+    <p class="">평점</p>
+    <div class="">
+      <img src="" alt="영화 포스터 사진">
+    </div>
+  </div>
+</div>
+
+<div class="today_movie">
+  <h2>오늘의 영화 TOP</h2>
+  <button class="">전체보기</button>
+  <div>
+    <img src="" alt="영화 포스터 사진">
+    <h3>영화 제목</h3>
+  </div>
+</div>
+
+<div class="week_movie">
+  <h2>이번주의 영화 TOP</h2>
+  <div>
+    <img src="" alt="영화 포스터 사진">
+    <h3>영화 제목</h3>
+  </div>
+</div>
+
   <script type="module" src="index.js"></script>
 </body>
 </html> 
