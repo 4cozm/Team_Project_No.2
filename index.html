@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>영화 페이지 만들기</title>
-    <link rel="stylesheet" href="CSS/reset.css"><!--reset.css링크-->
-    <link rel="stylesheet" href="index.css"><!--메인 CSS 파일 링크-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!--메인 CSS 파일 링크-->
+  <link rel="stylesheet" link="./index.css"></link>
 </head>
+
 <body>
-    <script type="module" src="index.js"></script>
+  <nav id="navbar" class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand">Navbar</a>
+      <form class="d-flex">
+        <input
+          class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button id="btn_submit" class="btn btn-outline-success" type="submit">검색</button>
+      </form>
+    </div>
+  </nav>
+
+  <script defer type="module" src="index.js"></script>
 </body>
-</html> 
+
+</html>
+
