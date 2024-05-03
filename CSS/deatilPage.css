@@ -1,48 +1,57 @@
 @import "./colors.css";
 
-body{
-    background-color: var(--backGround);
-    display:flex;
-    justify-content: center;
+::-webkit-scrollbar {
+  display: none; /* 웹킷(Chrome, Safari) 브라우저에서만 수직 스크롤바 감춤 */
 }
-.underContainer{
-    margin-top:30vh; /*윗부분 제작시 삭제*/
-    
-    flex-direction: column;
-    width: 50vw;
-    height: auto;
-    height:auto;
-    background-color: var(--pinkDark);
+body {
+  background-color: var(--backGround);
+  display: flex;
+  justify-content: center;
 }
-.underBody{
-    background-color: white;
-    margin:40px 20px;
-    padding: 20px;
-    border-radius: 5px;
-}
-.underButtonContainer{
-    width: auto;
-    height:40px;
-    display: flex;
-    background-color: teal;
-    cursor: pointer;
-}
-.form-floating{
-    box-shadow: 2px 2px 3px var(--pinkDark);
-    margin-top:5px;
-}
-.underButtonInfo{ /* 주요 정보 이동 버튼*/
-    background-color: white;
-    height: 40px;
-    width: 25vw;
-    text-align: center;
+.underContainer {
+  margin-top: 30vh; /*윗부분 제작시 삭제*/
 
-    padding-top:7px;
+  flex-direction: column;
+  width: 50vw;
+  height: auto;
+  height: auto;
+  background-color: var(--pinkDark);
 }
-.underButtonReview{/* 평점 리뷰 이동 버튼*/
-    background-color: var(--pinkDark);
-    height: 40px;
-    width: 25vw;
-    text-align: center;
-    padding-top:7px;
+.underBody {
+  background-color: white;
+  margin: 40px 20px;
+  padding: 20px;
+  border-radius: 5px;
+}
+.underButtonContainer {
+  width: auto;
+  height: 40px;
+  display: flex;
+  background-color: teal;
+  cursor: pointer;
+}
+.form-floating {
+  box-shadow: 2px 2px 3px var(--pinkDark);
+  margin-top: 5px;
+}
+.underButtonInfo {
+  /* 주요 정보 이동 버튼*/
+  background-color: white;
+  height: 40px;
+  width: 25vw;
+  text-align: center;
+
+  padding-top: 7px;
+}
+.underButtonReview {
+  /* 평점 리뷰 이동 버튼*/
+  background-color: var(--pinkDark);
+  height: 40px;
+  width: 25vw;
+  text-align: center;
+  padding-top: 7px;
+}
+#movieScoreInput {
+  /*별점 매기는 슬라이더 디자인*/
+  margin-top: 10px;
 }

@@ -13,68 +13,79 @@
     />
     <link rel="stylesheet" href="../CSS/deatilPage.css" />
   </head>
-  <div class="underContainer">
-    <div class="underButtonContainer">
-      <span class="underButtonInfo">주요정보</span>
-      <span class="underButtonReview">평점리뷰</span>
-    </div>
-    <div class="underBody">
-      <form class="underReviewForm">
-        <div class="form-floating">
-          <textarea
-            class="form-control"
-            placeholder="Leave a comment here"
-            id="floatingTextarea"
-          ></textarea>
-          <label for="floatingTextarea">이름</label>
-        </div>
-        <div class="form-floating">
-          <input
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-          />
-          <label for="floatingPassword">비밀번호</label>
-        </div>
-        <div class="form-floating">
-          <input
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-          />
-          <label for="floatingPassword">비밀번호 확인</label>
-        </div>
-        <div>
-            <input id="movieScoreInput" type="range" min="1" max="10" step="0.5" placeholder="평점" />
-            <span id="movieScorePrint"> 5 점</span>
-        </div>
-        <div class="form-floating">
-          <textarea
-            class="form-control"
-            placeholder="Leave a comment here"
-            id="floatingTextarea"
-          ></textarea>
-          <label for="floatingTextarea">영화의 어떤 점이 좋았나요?</label>
-        </div>
-        <button type="button">평점 작성</button>
-      </form>
-      <div class="underOderBox">
-        <!-- 선택 구현 과제 버튼을 display:none 으로 처리해 둠-->
-        <button type="button">최신순</button>
-        <button type="button">평점순</button>
+  <body>
+    <div class="underContainer">
+      <div class="underButtonContainer">
+        <span class="underButtonInfo">주요정보</span>
+        <span class="underButtonReview">평점리뷰</span>
       </div>
-      <div class="underReviewContainer">
-        <div class="underReview">
-          <p>닉네임</p>
-          <p>평점</p>
-          <p>너무 재미있어요</p>
-          <br />
-          <p>2024.05.01</p>
+      <div class="underBody">
+        <div class="underInfoForm" style="display: none;"></div>
+        <form class="underReviewForm">
+          <div class="form-floating">
+            <textarea
+              class="form-control"
+              placeholder="Leave a comment here"
+              id="floatingTextarea"
+            ></textarea>
+            <label for="floatingTextarea">이름</label>
+          </div>
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="floatingPassword"
+              placeholder="Password"
+            />
+            <label for="floatingPassword">비밀번호</label>
+          </div>
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="floatingPassword"
+              placeholder="Password"
+            />
+            <label for="floatingPassword">비밀번호 확인</label>
+          </div>
+          <div>
+            <input
+              id="movieScoreInput"
+              type="range"
+              min="0"
+              max="10"
+              step="1"
+              value="0"
+              placeholder="평점"
+            />
+            <span id="movieScorePrint">평점을 매겨주세요</span>
+          </div>
+          <div class="form-floating">
+            <textarea
+              class="form-control"
+              placeholder="Leave a comment here"
+              id="floatingTextarea"
+            ></textarea>
+            <label for="floatingTextarea">영화의 어떤 점이 좋았나요?</label>
+          </div>
+          <button type="button">평점 작성</button>
+        </form>
+        <div class="underOderBox">
+          <!-- 선택 구현 과제 버튼을 display:none 으로 처리해 둠-->
+          <button type="button">최신순</button>
+          <button type="button">평점순</button>
+        </div>
+        <div class="underReviewContainer">
+          <div class="underReview">
+            <p>닉네임</p>
+            <p>평점</p>
+            <p>너무 재미있어요</p>
+            <br />
+            <p>2024.05.01</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <body></body>
+  </body>
+  <script type="module" src="../JS/detailPage.js"></script>
 </html>
