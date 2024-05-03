@@ -1,6 +1,6 @@
 //메인 로직을 구현하는 JS 파일입니다
 import { test, getTopRated, getDailyRanking, getWeeklyRanking, searchMovie }
-  from './JS/function.js';
+from './JS/function.js';
 
 test();
 
