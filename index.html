@@ -2,7 +2,6 @@
 <html lang="ko">
 
 <head>
-<<<<<<< Updated upstream
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영화 페이지 만들기</title>
@@ -11,8 +10,18 @@
 </head>
 
 <body>
-  <script type="module" src="index.js"></script>
+  <nav id="navbar" class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand">Navbar</a>
+      <form class="d-flex">
+        <input
+          class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button id="btn_submit" class="btn btn-outline-success" type="submit">검색</button>
+      </form>
+    </div>
+  </nav>
+
+  <script defer type="module" src="index.js"></script>
 </body>
-</html> 
 
-
+</html>
