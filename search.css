@@ -60,12 +60,15 @@
     margin: 5px;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    
+    
 }
 
 .col{
     background-color:#F2BDC7;
     max-width: 20%;
     text-align: center;
+    margin: 10px;
 
     border: transparent;
     border-radius: 8px;
