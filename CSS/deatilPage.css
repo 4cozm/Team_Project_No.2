@@ -19,6 +19,7 @@ body {
   display: flex;
   justify-content: center;
 }
+
 .underContainer {
   margin-top: 30vh; /*윗부분 제작시 삭제*/
   flex-direction: column;
@@ -26,6 +27,7 @@ body {
   height: auto;
   background-color: var(--pinkDark);
 }
+/* 주요정보 탭, 평점 리뷰 탭 */
 .underBody {
   display: flex;
   flex-direction: column;
@@ -42,6 +44,40 @@ body {
   background-color: teal;
   cursor: pointer;
 }
+.form-floating {
+  box-shadow: 2px 2px 3px var(--pinkDark); /*input 태그들 그림자설정*/
+  margin-top: 5px;
+}
+
+.underInfoForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.overView {
+  overflow-y: auto;
+  height: 30vh;
+  padding: 20px;
+  border-bottom: 0.1px solid var(--pinkDark);
+}
+.movieInfo {
+}
+#movieInfoAge {
+}
+#moveInfoRelease {
+}
+#movieInfoGenre {
+}
+#moveInfoDirector {
+}
+#movieInfoCast {
+}
+/*--------------------*/
+
+
+
 .underReviewForm {
   display: flex;
   flex-direction: column;
@@ -49,10 +85,7 @@ body {
   width: 40vw;
   margin: 20px;
 }
-.form-floating {
-  box-shadow: 2px 2px 3px var(--pinkDark); /*input 태그들 그림자설정*/
-  margin-top: 5px;
-}
+
 .underButtonInfo {
   /* 주요 정보 이동 버튼*/
   background-color: white;
@@ -83,6 +116,8 @@ body {
   color: white;
 }
 
+
+
 /*최신순 평점순 버튼 디자인*/
 .underOderBox {
   background-color: var(--pinkDark);
@@ -97,7 +132,9 @@ body {
 }
 /*-------------------------------*/
 
-/*작성완료된 리뷰컨테이너*/
+
+
+/*작성완료된 리뷰를 모아두는 컨테이너*/
 .underReviewContainer {
   display: flex;
   flex-wrap: wrap;
@@ -113,33 +150,12 @@ body {
   width: 400px;
   height: 30vh;
 }
-/*주요정보 탭 내부 요소*/
-.underInfoForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-.overView {
-  overflow-y: auto;
-  height: 30vh;
-  padding: 20px;
-  border-bottom: 0.1px solid var(--pinkDark);
-}
-.movieInfo {
-}
-#movieInfoAge {
-}
-#moveInfoRelease {
-}
-#movieInfoGenre {
-}
-#moveInfoDirector {
-}
-#movieInfoCast {
-}
-/*--------------------*/
+/*-------------------------------- */
+
+
+
+
+
 
 /*반짝거리는 버튼ㅋㅋ*/
 .glow-on-hover {
@@ -216,3 +232,4 @@ body {
     background-position: 0 0;
   }
 }
+/*-------------------- */
