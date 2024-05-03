@@ -1,3 +1,14 @@
+/*
+
+
+최종 편집자 : 안홍걸
+
+
+
+
+
+
+*/
 @import "./colors.css";
 
 ::-webkit-scrollbar {
@@ -10,18 +21,19 @@ body {
 }
 .underContainer {
   margin-top: 30vh; /*윗부분 제작시 삭제*/
-
   flex-direction: column;
   width: 50vw;
-  height: auto;
   height: auto;
   background-color: var(--pinkDark);
 }
 .underBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: white;
-  margin: 40px 20px;
-  padding: 20px;
+  margin: 40px;
   border-radius: 5px;
+  height: 400px;
 }
 .underButtonContainer {
   width: auto;
@@ -30,8 +42,15 @@ body {
   background-color: teal;
   cursor: pointer;
 }
+.underReviewForm {
+  display: flex;
+  flex-direction: column;
+  height: 35vh;
+  width: 40vw;
+  margin: 20px;
+}
 .form-floating {
-  box-shadow: 2px 2px 3px var(--pinkDark);
+  box-shadow: 2px 2px 3px var(--pinkDark); /*input 태그들 그림자설정*/
   margin-top: 5px;
 }
 .underButtonInfo {
@@ -54,4 +73,42 @@ body {
 #movieScoreInput {
   /*별점 매기는 슬라이더 디자인*/
   margin-top: 10px;
+}
+#saveReview { /*평점 작성 버튼 */
+  background-color: var(--pinkDark);
+  margin-top: 20px;
+  border-radius: 5px;
+  padding:10px;
+  color:white;
+}
+
+/*최신순 평점순 버튼 디자인*/
+.underOderBox {
+  background-color: var(--pinkDark);
+  width: 100%;
+  height: 0px;
+}
+#oderLastest {
+  display: none;
+}
+#oderScore {
+  display: none;
+}
+/*-------------------------------*/
+
+/*작성완료된 리뷰컨테이너*/
+.underReviewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  justify-content: center;
+}
+.underReview {
+  margin: 10px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+  width: 400px;
+  height: 30vh;
 }
