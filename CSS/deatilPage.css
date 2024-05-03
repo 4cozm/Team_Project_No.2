@@ -62,7 +62,7 @@ body {
   padding: 20px;
   border-bottom: 0.1px solid var(--pinkDark);
 }
-.movieInfo {
+/* .movieInfo {
 }
 #movieInfoAge {
 }
@@ -73,10 +73,8 @@ body {
 #moveInfoDirector {
 }
 #movieInfoCast {
-}
+} */
 /*--------------------*/
-
-
 
 .underReviewForm {
   display: flex;
@@ -116,8 +114,6 @@ body {
   color: white;
 }
 
-
-
 /*최신순 평점순 버튼 디자인*/
 .underOderBox {
   background-color: var(--pinkDark);
@@ -131,8 +127,6 @@ body {
   display: none;
 }
 /*-------------------------------*/
-
-
 
 /*작성완료된 리뷰를 모아두는 컨테이너*/
 .underReviewContainer {
@@ -151,11 +145,6 @@ body {
   height: 30vh;
 }
 /*-------------------------------- */
-
-
-
-
-
 
 /*반짝거리는 버튼ㅋㅋ*/
 .glow-on-hover {
