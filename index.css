@@ -8,7 +8,7 @@ body {
   background-color: var(--backGround);
   color: var(--pinkDark);
 }
-
+/*네비게이션*/
 .container-fluid{
   display:flex;
   justify-content: space-around;
@@ -19,13 +19,22 @@ body {
 }
 
 /*영화 포스터, 간단한 내용 보여주기*/
-.movie-poster {
+.movie-box {
   width: 100%;
   height: 500px;
   background-color: var(--pinkLight);
 }
-.poster-title {
+.movie-poster {
+  width: 297px;
+  height: 420px;
+  background-color: var(--reviewStar); 
+  border-radius: 10px;
+  float: left;
   
+}
+.poster-title {
+  padding-top: 30px;
+  text-align: center;
 }
 .age-img {
   width: 40px;
@@ -35,10 +44,31 @@ body {
   display: inline-block;
 
 }
+/*영화 포스터사진 넣을때 크기*/
 .img-box {
   width: 297px;
   height: 420px;
   background-color: aqua;
   border-radius: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   float: right;
+}
+/*사진 슬라이드 할때 버튼*/
+.box_btn{
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%);
+}
+.btn_line {
+  width: 100px;
+  height: 10px;
+  border-radius: 10px;
+  /*보여주는 영화 포스터면 --pinkMedium 색상
+  and
+  대기중은 영화 포스터면 #ffffff 색상*/
+  background-color: var(--pinkMedium);
+  margin: 0 5px;
+  cursor: pointer;
 }
