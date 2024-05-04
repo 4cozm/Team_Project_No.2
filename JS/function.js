@@ -5,7 +5,7 @@ export function test() {
 
 
 // GET TheMovieDB Top-Rated
-export function getTopRated() {
+export async function getTopRated() {
   const options = {
     method: 'GET',
     headers: {
@@ -14,14 +14,14 @@ export function getTopRated() {
     }
   };
 
-  fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
+  return await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
     .then(response => response.json())
-    .then(data => function success() {
+    .then(data => {
       console.log(data);
       return data;        // 받은 데이터 반환
     }
     )
-    .catch(err => function failure() {
+    .catch(err => {
       console.error(err)
       return -1;      // 에러표시를 위해 -1 반환
     }
@@ -31,11 +31,11 @@ export function getTopRated() {
 
 
 // 영화진흥위원회API용 날짜지정 함수
-function getBeforeDate() {
+function getBeforeDate(tar = -1) {
   let getToday = new Date();
   let today = getToday.getFullYear() +    // 년
               "0" + Number(getToday.getMonth()+1) +     // 월
-              "0" + Number(getToday.getDate()-1);     // 일
+              "0" + Number(getToday.getDate()+tar);     // 일
   console.log(today);
 
   return today;
@@ -52,12 +52,12 @@ export async function getDailyRanking() {
   try{
     let response = await fetch(`http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${key}&targetDt=${targetDate}`);
     let data = await response.json();
-    console.log(data.boxOfficeResult);
+    res = data["boxOfficeResult"];
   } catch(errer) {
     console.error(err);
   }
 
-    return res;
+  return res;
 }
 
 
@@ -67,24 +67,23 @@ export async function getWeeklyRanking(range=0) {
 
   let key = '653c57a5ca2b00ae2ace38fd06de24a4';   // API-Key 값
   let targetDate = `20240422`;    // 조회할 주의 시작일(월요일) 지정
+  let fetch_url = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=${key}&targetDt=${targetDate}&weekGb=${range}`;
 
-  fetch(`http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=${key}&targetDt=${targetDate}&weekGb=${range}`)
+  let res;
+  return await fetch(fetch_url)
     .then(response => response.json())
     .then(data => {
-      console.log(data.boxOfficeResult);
-      return {
-        datas : data.boxOfficeResult        // 받은 데이터 반환
-      }
+      res = data["boxOfficeResult"];
+      return res;
     })
     .catch(err => {
       console.error(err);
-      return -1;      // 에러표시를 위해 -1 반환
     });
 }
 
 
 // TMDB 이름으로 영화검색
-export function searchMovie(tar) {
+export async function searchMovie(tar) {
 
   let target = '%' + tar + '%';
   let fetch_url = `https://api.themoviedb.org/3/search/movie?query=${target}&api_key=fa358c2e1d411f8ea7bc3e83b1552ccf`;
@@ -97,7 +96,7 @@ export function searchMovie(tar) {
       }
   };
 
-  fetch(fetch_url, options)
+  return await fetch(fetch_url, options)
         .then(response => response.json())
         .then(data => {
           console.log(data);
