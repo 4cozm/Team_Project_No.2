@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="search.css" />
-    <script type="module" src="search.js"></script>
+    <script type="module" src="JS/search.js"></script>
   </head>
   <body>
     <nav id="navbar" class="navbar navbar-light bg-light">
@@ -23,12 +23,13 @@
       </div>
     </nav>
     <div class="button">
-      <button type="button" class="btn_name">이름순﹀</button>
-      <button type="button" class="btn_new">최신순﹀</button>
-      <button type="button" class="btn_recommended">평점순﹀</button>
+       <!-- 선택구현과제는 숨겨둠 -->
+      <button style="display: none;" type="button" class="btn_name">이름순﹀</button>
+      <button style="display: none;" type="button" class="btn_new">최신순﹀</button>
+      <button style="display: none;" type="button" class="btn_recommended">평점순﹀</button>
     </div>
-    <div id="cards" class="row row-cols-1 row-cols-md-4 g-4">
-      <div class="col">
+    <div id="cards" class="moiveBox row row-cols-1 row-cols-md-4 g-4">\
+      <div class="moviePoster col">
         <div class="card h-100">
           <img src="..." class="card-img-top" alt="..." />
           <h5 class="card-title">제목</h5>
@@ -38,37 +39,6 @@
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card h-100">
-          <img src="..." class="card-img-top" alt="..." />
-          <h5 class="card-title">제목</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="card-footer">
-            <small class="text-body-secondary">평점</small>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <img src="..." class="card-img-top" alt="..." />
-          <h5 class="card-title">제목</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="card-footer">
-            <small class="text-body-secondary">평점</small>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <img src="..." class="card-img-top" alt="..." />
-          <h5 class="card-title">제목</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="card-footer">
-            <small class="text-body-secondary">평점</small>
-          </div>
-        </div>
-      </div>
-      
     </div>
     
   </body>

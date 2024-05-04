@@ -44,22 +44,21 @@ function getBeforeDate(tar = -1) {
 
 // GET 영화진흥위원회 일별 박스오피스
 export async function getDailyRanking() {
+  const key = "653c57a5ca2b00ae2ace38fd06de24a4"; // API-Key 값
+  const targetDate = getBeforeDate(); // 당일조회는 되지않음
 
-  let key = '653c57a5ca2b00ae2ace38fd06de24a4';   // API-Key 값
-  let targetDate = getBeforeDate();     // 당일조회는 되지않음
-
-  let res;
-  try{
-    let response = await fetch(`http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${key}&targetDt=${targetDate}`);
-    let data = await response.json();
-    res = data["boxOfficeResult"];
-  } catch(errer) {
-    console.error(err);
-  }
-
-  return res;
-}
-
+  return fetch(
+    `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${key}&targetDt=${targetDate}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data.boxOfficeResult.dailyBoxOfficeList;
+    })
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
+  };
 
 // GET 영화진흥위원회 주간/주말 박스오피스
 // range 값 | 0 : 월~일 / 1 : 금~일 / 2 : 월~목 | 기본값 : 0 (월~일)
