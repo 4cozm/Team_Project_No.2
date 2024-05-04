@@ -6,11 +6,11 @@ test();
 //dataFetched에서 더 짧은 recv로 변경 : 편하게 관리하기 위해서 교체 함
 
 // 일간-순위 테스트
-let dailyResult;
-await getDailyRanking().then((data) => {
-  dailyResult = data;
-});
-console.log(dailyResult);
+// let dailyResult;
+// await getDailyRanking().then(data => {
+//   dailyResult=data;
+//   });
+// console.log(dailyResult);
 
 // // 주간-순위 테스트
 // recv = getWeeklyRanking()

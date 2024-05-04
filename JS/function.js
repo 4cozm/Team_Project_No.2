@@ -3,6 +3,7 @@ export function test() {
   console.log("function.js의 test 메서드와 연결이 잘 되었습니다");
 }
 
+const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY
 // GET TheMovieDB Top-Rated
 export function getTopRated() {
   const options = {
@@ -20,6 +21,7 @@ export function getTopRated() {
   )
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       return data.results;
     })
     .catch((error) => console.error("Error fetching data:", error));
@@ -56,24 +58,24 @@ export async function getDailyRanking() {
     });
 }
 
-// // GET 영화진흥위원회 주간/주말 박스오피스
-// // range 값 | 0 : 월~일 / 1 : 금~일 / 2 : 월~목 | 기본값 : 0 (월~일)
-// export async function getWeeklyRanking(range = 0) {
-//   let key = "653c57a5ca2b00ae2ace38fd06de24a4"; // API-Key 값
-//   let targetDate = `20240422`; // 조회할 주의 시작일(월요일) 지정
-//   let fetch_url = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=${key}&targetDt=${targetDate}&weekGb=${range}`;
+// GET 영화진흥위원회 주간/주말 박스오피스
+// range 값 | 0 : 월~일 / 1 : 금~일 / 2 : 월~목 | 기본값 : 0 (월~일)
+export async function getWeeklyRanking(range = 0) {
+  let key = "653c57a5ca2b00ae2ace38fd06de24a4"; // API-Key 값
+  let targetDate = `20240422`; // 조회할 주의 시작일(월요일) 지정
+  let fetch_url = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=${key}&targetDt=${targetDate}&weekGb=${range}`;
 
-//   let res;
-//   return await fetch(fetch_url)
-//     .then((response) => response.json())
-//     .then((data) => {
-//       res = data["boxOfficeResult"];
-//       return res;
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//     });
-// }
+  let res;
+  return await fetch(fetch_url)
+    .then((response) => response.json())
+    .then((data) => {
+      res = data["boxOfficeResult"];
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
 
 // // TMDB 이름으로 영화검색
 // export async function searchMovie(tar) {
@@ -96,3 +98,57 @@ export async function getDailyRanking() {
 //     })
 //     .catch((err) => console.error(err));
 // }
+
+//TMDB 이름 합치는 함수
+
+async function searchMovieByName(movieName) { //영화이름을 포스터 URL로 변경해주는 함수
+  return fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
+      movieName
+    )}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      return data.results[0].poster_path;
+    })
+    .catch((error) => {
+      console.error("searchMovieByName 함수에서 문제 발생:", error);
+      return [];
+    });
+}
+
+  //한국영화진흥원의 데이터를 기반으로 TMDB의 poster_Path를 가져오는 함수
+
+async function mixData(range) {
+  let rawArray //데이터를 합치기 전의 배열
+
+  range = range.toLowerCase();
+  if (range === "day") {
+    //일간 박스오피스 기준으로 데이터를 합침
+    rawArray = await getDailyRanking();
+  } else if (range === "week") {
+    //주간 박스오피스 기준으로 데이터를 합침
+    rawArray = await getWeeklyRanking();
+  } else {
+    console.log(
+      "mixData함수에 입력한 값이 올바르지 않습니다 대소문자 구분없이 Day 혹은 Week를 써 주세요"
+    );
+    return 0;
+  }
+
+  for (const index of rawArray) {
+    let movieNm = index.movieNm; //영화진흥원의 이름을 저장
+    const poster_Url = await searchMovieByName(movieNm);
+    index.poster_path = poster_Url;
+  }
+  return rawArray;
+};
+
+
+let macham =await mixData("day");
+console.log(macham);
