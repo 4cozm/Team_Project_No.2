@@ -124,28 +124,60 @@ async function searchMovieByName(movieName) { //영화이름을 포스터 URL로
 
   //한국영화진흥원의 데이터를 기반으로 TMDB의 poster_Path를 가져오는 함수
 
+// async function mixData(range) {
+//   let rawArray //데이터를 합치기 전의 배열
+
+//   range = range.toLowerCase();
+//   if (range === "day") {
+//     //일간 박스오피스 기준으로 데이터를 합침
+//     rawArray = await getDailyRanking();
+//   } else if (range === "week") {
+//     //주간 박스오피스 기준으로 데이터를 합침
+//     rawArray = await getWeeklyRanking();
+//   } else {
+//     console.log(
+//       "mixData함수에 입력한 값이 올바르지 않습니다 대소문자 구분없이 Day 혹은 Week를 써 주세요"
+//     );
+//     return 0;
+//   }
+
+//   for (const index of rawArray) {
+//     let movieNm = index.movieNm; //영화진흥원의 이름을 저장
+//     const poster_Url = await searchMovieByName(movieNm);
+//     index.poster_path = poster_Url;
+//   }
+//   return rawArray;
+// };
+
+
+//병렬처리 작업
 async function mixData(range) {
   let rawArray //데이터를 합치기 전의 배열
 
   range = range.toLowerCase();
   if (range === "day") {
-    //일간 박스오피스 기준으로 데이터를 합침
-    rawArray = await getDailyRanking();
+      //일간 박스오피스 기준으로 데이터를 합침
+      rawArray = await getDailyRanking();
   } else if (range === "week") {
-    //주간 박스오피스 기준으로 데이터를 합침
-    rawArray = await getWeeklyRanking();
+      //주간 박스오피스 기준으로 데이터를 합침
+      rawArray = await getWeeklyRanking();
   } else {
-    console.log(
-      "mixData함수에 입력한 값이 올바르지 않습니다 대소문자 구분없이 Day 혹은 Week를 써 주세요"
-    );
-    return 0;
+      console.log(
+          "mixData함수에 입력한 값이 올바르지 않습니다 대소문자 구분없이 Day 혹은 Week를 써 주세요"
+      );
+      return 0;
   }
 
-  for (const index of rawArray) {
-    let movieNm = index.movieNm; //영화진흥원의 이름을 저장
-    const poster_Url = await searchMovieByName(movieNm);
-    index.poster_path = poster_Url;
-  }
+  // 각 영화에 대한 이미지 URL을 가져오는 작업을 병렬적으로 처리
+  const posterPromises = rawArray.map(async (index) => {
+      let movieNm = index.movieNm; //영화진흥원의 이름을 저장
+      const poster_Url = await searchMovieByName(movieNm);
+      index.poster_path = poster_Url;
+  });
+
+  // 모든 이미지 URL을 가져올 때까지 기다림
+  await Promise.all(posterPromises);
+
   return rawArray;
 };
 
