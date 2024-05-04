@@ -18,10 +18,11 @@ body {
   position: fixed;
   top:0px;
   width: 100vw;
+  border-bottom: 1px solid var( --pinkLight);
 }
-
 .navbar-brand{
   background-color:var( --pinkLight);
+  
   width: 10%;
   height: 80%;
 }
@@ -85,14 +86,12 @@ body {
 .imgBox {
   width: 420px;
   height: 600px;
-  background-color: aqua; /*구성완료시 없앨것임*/
   border-radius: 10px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
 }
-
 
 /*02_4 사진 슬라이드 할때 버튼*/
 .boxBtn{
@@ -117,7 +116,7 @@ body {
   display: flex;
   justify-content: space-around;
   padding: 0px 90px;
-
+  margin-top: 10px;
 }
 .todayMovieTop {
   font-size: 40px;
@@ -139,17 +138,15 @@ body {
   flex-wrap: wrap;
   width: 100%;
   height: auto;
-  background-color: aqua; /*구성완료시 없앨것임*/
   display: flex;
   padding: 50px 10px;
   justify-content: space-around;
-  
 }
 .todayMoviePoster{
   width: 300px;
   height: 480px;
   border-radius: 10px;
-  background-color: var(--pinkDark); /*구성완료시 없앨것임*/
+  background-color: white; 
   margin: 0px 10px ;
   margin-bottom: 30px;
   overflow: hidden;
@@ -160,15 +157,15 @@ body {
   text-align: center;
 }
 
-
 /*04_1 이번주의 영화 TOP 버튼구역*/
 .weekAll {
   display: flex;
   justify-content: space-around;
   width: 100vw;
-  height: 30px;
+  height: 60px;
   padding: 0px 90px;
-  background-color: red; /*구성완료시 없앨것임*/
+  
+  margin-top: 10px;
 }
 .weekMovieTop {
   font-size: 40px;
@@ -191,17 +188,15 @@ body {
   flex-wrap: wrap;
   width: 100%;
   height: auto;
-  background-color: aqua; /*구성완료시 없앨것임*/
   display: flex;
   padding: 50px 10px;
   justify-content: space-around;
-  
 }
 .weekMoviePoster{
   width: 300px;
   height: 480px;
   border-radius: 10px;
-  background-color: var(--pinkDark); /*구성완료시 없앨것임*/
+  background-color: white; 
   margin: 0px 10px ;
   margin-bottom: 30px;
   overflow: hidden;
@@ -210,4 +205,12 @@ body {
   color: black;
   background-color: white; 
   text-align: center;
+}
+
+/*05_footer Copyright*/
+.copy {
+  text-align: center;
+  padding: 30px;
+  color: var(--pinkDark);
+  background-color: var(--pinkLight);
 }
