@@ -5,20 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영화 페이지 만들기</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="CSS/reset.css"><!--reset.css링크-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"><!--부트스트랩 링크-->
-    <link rel="stylesheet" href="CSS/reset.css"><!--reset.css링크-->
     <link rel="stylesheet" href="index.css"><!--메인 CSS 파일 링크-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'><!--평점 별 아이콘-->
     
 </head>
 <body>
+  <!--01_네비게이션-->
   <nav id="navbar" class="navbar navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand">Navbar</a>
+      <img class="navbar-brand" src="image/age/COFFEE_MOVIE.png"  ></a>
       <form class="d-flex">
         <input
-          class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
         <button id="btn_submit" class="btn btn-outline-success" type="submit">검색</button>
       </form>
     </div>
@@ -27,17 +33,19 @@
   <!--02_1 영화 포스터, 간단한 내용 보여주기-->
   <div class = "movieBox">
     <div class="moviePoster">
-      <h1 class="posterTitle">영화제목</h1>
+      <h1 class="posterTitle">엘리멘탈</h1>
       <!--02_2 영화 연령고지, 개봉년도-->
-      <div class="ageYear">
-        <img class="ageImg" src="image/age/01_ALL.png" alt="연령고지 이미지">
-        <span class="movieYear">년도</span>
+      <div class="ageYearReview">
+        <div class="ageYear">
+          <img class="ageImg" src="image/age/01_ALL.png" alt="연령고지 이미지">
+          <span class="movieYear">2023.06.14</span>
+        </div>
+        <p class="movieReview"><i class='bx bxs-star'></i>평점</p>
       </div>
-      <p class="movieReview"><i class='bx bxs-star'></i>평점</p>
     </div>
     <!--02_3 영화 포스터사진 넣을때 크기-->
     <div class="imgBox">
-      <img src="" alt="영화 포스터 사진">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
     </div>
     <!--02_4 사진 슬라이드 할때 버튼-->
     <div class="boxBtn">
@@ -47,33 +55,112 @@
     </div>
   </div>
 
-  <!--03_오늘의 영화 TOP-->
+  <!--03_1 오늘의 영화 버튼구역 -->
+  <div class="todayAll">
+    <h2 class="todayMovieTop">오늘의 영화 TOP</h2>
+    <button class="todayMovieBtn">전체보기<i class='bx bx-chevron-right'></i></button>
+  </div>
+  <!--03_2 오늘의 영화 TOP-->
   <div class="todayMovie">
-    <div class="todayAll">
-      <h2 class="todayMovieTop">오늘의 영화 TOP</h2>
-      <button class="allMovieBtn">전체보기<i class='bx bx-chevron-right'></i></button>
-    </div>
     <div class="todayMoviePoster">
-      <img src="" alt="영화 포스터 사진">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
       <div class="todayMovieTitle">
-        <h3>영화 제목</h3>
+        <h3>엘리멘탈</h3>
       </div>
     </div>
     
-  </div>
+    <div class="todayMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="todayMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+    
+    <div class="todayMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="todayMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
 
-  <!--04_이번주의 영화 TOP, 오늘의 영화 복사 불여넣기하고 이름만 달리하면됨-->
-  <div class="weekMovie">
-    <h2>이번주의 영화 TOP</h2>
-    <button class="">전체보기</button>
-    <div>
-      <img src="" alt="영화 포스터 사진">
-      <h3>영화 제목</h3>
+    <div class="todayMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="todayMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+
+    <div class="todayMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="todayMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+
+    <div class="todayMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="todayMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+
+    <div class="todayMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="todayMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+
+    <div class="todayMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="todayMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
     </div>
   </div>
 
+  <!--04_1 이번주의 영화 TOP 버튼구역-->
+  <div class="weekAll">
+    <h2 class="weekMovieTop">이번주의 영화 TOP</h2>
+    <button class="weekMovieBtn">전체보기<i class='bx bx-chevron-right'></i></button>
+  <div>
+  <!--04_2 이번주의 영화 TOP-->
+  <div class="weekMovie">
+    <div class="weekMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="weekMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <div class="weekMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="weekMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+
+    <div class="weekMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="weekMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+
+    <div class="weekMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="weekMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+
+    <div class="weekMoviePoster">
+      <img src="image/poster/01_엘리멘탈.jpg" alt="영화 포스터 사진">
+      <div class="weekMovieTitle">
+        <h3>엘리멘탈</h3>
+      </div>
+    </div>
+  </div>
   <script type="module" src="index.js"></script>
 </body>
 
