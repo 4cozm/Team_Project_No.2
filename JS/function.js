@@ -101,7 +101,7 @@ export async function getWeeklyRanking(range = 0) {
 
 //TMDB 이름 합치는 함수
 
-async function searchMovieByName(movieName) { //영화이름을 포스터 URL로 변경해주는 함수
+async function searchMovieByName(movieName) { //function.js 내부에서만 사용!!
   return fetch(
     `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
       movieName
@@ -114,7 +114,9 @@ async function searchMovieByName(movieName) { //영화이름을 포스터 URL로
       return response.json();
     })
     .then((data) => {
-      return data.results[0].poster_path;
+      const posterUrl ="https://image.tmdb.org/t/p/w500/"+data.results[0].poster_path;
+      const voteAverage = data.results[0].vote_average;
+      return { posterUrl, voteAverage };
     })
     .catch((error) => {
       console.error("searchMovieByName 함수에서 문제 발생:", error);
@@ -151,7 +153,7 @@ async function searchMovieByName(movieName) { //영화이름을 포스터 URL로
 
 
 //병렬처리 작업
-async function mixData(range) {
+export async function addPosterToTopRanking(range) {
   let rawArray //데이터를 합치기 전의 배열
 
   range = range.toLowerCase();
@@ -163,16 +165,16 @@ async function mixData(range) {
       rawArray = await getWeeklyRanking();
   } else {
       console.log(
-          "mixData함수에 입력한 값이 올바르지 않습니다 대소문자 구분없이 Day 혹은 Week를 써 주세요"
+          "addPosterToTopRanking 함수에 입력한 값이 올바르지 않습니다 대소문자 구분없이 Day 혹은 Week를 써 주세요"
       );
       return 0;
   }
 
-  // 각 영화에 대한 이미지 URL을 가져오는 작업을 병렬적으로 처리
+  // 각 영화에 대한 이미지 URL과 평점을 가져오는 작업을 병렬적으로 처리
   const posterPromises = rawArray.map(async (index) => {
       let movieNm = index.movieNm; //영화진흥원의 이름을 저장
-      const poster_Url = await searchMovieByName(movieNm);
-      index.poster_path = poster_Url;
+      const results = await searchMovieByName(movieNm);
+      index.TMDB = results;
   });
 
   // 모든 이미지 URL을 가져올 때까지 기다림
@@ -180,7 +182,3 @@ async function mixData(range) {
 
   return rawArray;
 };
-
-
-let macham =await mixData("day");
-console.log(macham);

@@ -1,5 +1,5 @@
 //메인 로직을 구현하는 JS 파일입니다
-import { test, getTopRated, getDailyRanking } from "./JS/function.js";
+import { test, getTopRated, getDailyRanking,addPosterToTopRanking } from "./JS/function.js";
 
 test();
 
@@ -29,3 +29,8 @@ test();
 // });
 
 // console.log(results); //출력
+let dailyRanking=[];
+await addPosterToTopRanking("day").then((data)=>{
+  dailyRanking = data;
+});
+console.log(dailyRanking);
