@@ -1,16 +1,15 @@
 //메인 로직을 구현하는 JS 파일입니다
-import { test,addPosterToTopRanking }
-  from './JS/function.js';
+import { test, addPosterToTopRanking } from "./JS/function.js";
 
 test();
 
-let dailyRanking=[];
-await addPosterToTopRanking("day").then((data)=>{
+let dailyRanking = [];
+await addPosterToTopRanking("day").then((data) => {
   dailyRanking = data;
 });
 function mainMovie(num) {
   let imagePoster = document.createElement("img");
-  imagePoster.setAttribute('src', dailyRanking[num].TMDB.posterUrl);
+  imagePoster.setAttribute("src", dailyRanking[num].TMDB.posterUrl);
   document.querySelector(".imgBox").appendChild(imagePoster);
 
   let mainPoster = document.createElement("div");
@@ -25,37 +24,55 @@ function mainMovie(num) {
         </div>
         <p class="movieReview"><i class='bx bxs-star'></i>${dailyRanking[num].TMDB.voteAverage}</p>
       </div>
-`
+`;
   document.querySelector(".moviePoster").appendChild(mainPoster);
-};
+}
 
+let weekRanking = []; //이번주 영화 TOP 10
+await addPosterToTopRanking("week").then((data) => {
+  weekRanking = data;
+});
 
-//함수는 기존있는 내용을 지운다. mainMovie 내부에 원하는 범위의 숫자를 넣어준다(자동으로)
 mainMovie(0); //초기 호출
 
-function ScrollMain() { //자동으로 메인 무비를 바꿔주는 함수
+function ScrollMain() {
+  //자동으로 메인 무비를 바꿔주는 함수
   let num = 0;
   setInterval(function () {
-    document.querySelector(".moviePoster").innerHTML = ' ';
-    document.querySelector(".imgBox").innerHTML = ' ';
+    document.querySelector(".moviePoster").innerHTML = " ";
+    document.querySelector(".imgBox").innerHTML = " ";
     mainMovie(num);
     num++;
     if (num > 3) {
       num = 0;
-    };
+    }
   }, 5000); // 시간을 ms 단위로 입력하여 바뀌는 시간을 조절
-};
+}
 ScrollMain();
 
-function displayTodayTop(){
-    let todayMovieBox = document.querySelector(".todayMovie");
-    dailyRanking.forEach((index)=>{
-        let today=document.createElement("div");
-        today.classList.add(".todayMoviePoster");
-        today.innerHTML=`
+function displayTodayTop() {
+  let todayMovieBox = document.querySelector(".todayMovie");
+  dailyRanking.forEach((index) => {
+    let today = document.createElement("div");
+    today.classList.add(".todayMoviePoster");
+    today.innerHTML = `
         <img class="todayMoviePoster" src="${index.TMDB.posterUrl}">
-        <div class="todayMovieTitle">${index.movieNm}</div> `
-        todayMovieBox.appendChild(today);
-    });
+        <div class="todayMovieTitle">${index.movieNm}</div> `;
+    todayMovieBox.appendChild(today);
+  });
 }
 displayTodayTop();
+
+function displayWeekTop() {
+  let weekMovieBox = document.querySelector(".weekMovie");
+  weekRanking.forEach((index) => {
+    let week = document.createElement("div");
+    week.classList.add(".weekMoviePoster");
+    week.innerHTML = `
+        <img class="weekMoviePoster" src=${index.TMDB.posterUrl}>
+        <div class="weekMovieTitle">${index.movieNm}</div>
+        `;
+    weekMovieBox.appendChild(week);
+  });
+}
+displayWeekTop();

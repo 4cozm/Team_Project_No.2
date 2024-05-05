@@ -204,17 +204,24 @@ body {
 }
 .weekMoviePoster{
   width: 300px;
-  height: 480px;
+  max-width: 300px;
+  height: 450px;
   border-radius: 10px;
   background-color: white; 
   margin: 0px 10px ;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   overflow: hidden;
 }
 .weekMovieTitle {
+  max-width: 300px;
   color: black;
   background-color: white; 
   text-align: center;
+  overflow: hidden;
+  margin:0px 10px;
+  font-size: 30px;
+  border-radius: 10px;
+  box-shadow: 2px 5px 10px var(--pinkLight);
 }
 
 /*05_footer Copyright*/

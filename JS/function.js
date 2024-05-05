@@ -66,7 +66,7 @@ export async function getWeeklyRanking(range = 0) {
   return await fetch(fetch_url)
     .then((response) => response.json())
     .then((data) => {
-      res = data["boxOfficeResult"];
+      res = data.boxOfficeResult.weeklyBoxOfficeList;
       return res;
     })
     .catch((err) => {
