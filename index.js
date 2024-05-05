@@ -74,7 +74,7 @@ function displayWeekTop() {
   });
 }
 
-function fetchData() {
+function fetchData() { //캐싱 구현 함수 @@캐시 만료시간 추가해야함@@
   // 로컬 스토리지에서 데이터 가져오기
   const Dcache = localStorage.getItem("dayCachedData");
   const Wcache = localStorage.getItem("weekCachedData");
