@@ -2,8 +2,8 @@
 export function test() {
   console.log("function.js의 test 메서드와 연결이 잘 되었습니다");
 }
-
 const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY
+
 // GET TheMovieDB Top-Rated
 export function getTopRated() {
   const options = {
@@ -30,12 +30,9 @@ export function getTopRated() {
 // 영화진흥위원회API용 날짜지정 함수
 function getBeforeDate(tar = -1) {
   let getToday = new Date();
-  let today =
-    getToday.getFullYear() + // 년
-    "0" +
-    Number(getToday.getMonth() + 1) + // 월
-    "0" +
-    Number(getToday.getDate() + tar); // 일
+  let today = getToday.getFullYear() +    // 년
+              "0" + Number(getToday.getMonth()+1) +     // 월
+              "0" + Number(getToday.getDate()+tar);     // 일
 
   return today;
 }
@@ -91,17 +88,18 @@ export async function getWeeklyRanking(range = 0) {
 //     },
 //   };
 
-//   return await fetch(fetch_url, options)
-//     .then((response) => response.json())
-//     .then((data) => {
-//       return data;
-//     })
-//     .catch((err) => console.error(err));
-// }
+  return await fetch(fetch_url, options)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          return data;
+        })
+        .catch(err => console.error(err));
 
-//TMDB 이름 합치는 함수
+}
 
-async function searchMovieByName(movieName) { //function.js 내부에서만 사용!!
+//영화이름을 기준으로 검색한뒤 포스터 URL + 평점을 추가해줌 추가한 데이터는 TMDB.poster_path / TMDB.vote_average 로 접근가능
+async function searchMovieByName(movieName) { 
   return fetch(
     `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
       movieName
@@ -124,35 +122,7 @@ async function searchMovieByName(movieName) { //function.js 내부에서만 사�
     });
 }
 
-  //한국영화진흥원의 데이터를 기반으로 TMDB의 poster_Path를 가져오는 함수
 
-// async function mixData(range) {
-//   let rawArray //데이터를 합치기 전의 배열
-
-//   range = range.toLowerCase();
-//   if (range === "day") {
-//     //일간 박스오피스 기준으로 데이터를 합침
-//     rawArray = await getDailyRanking();
-//   } else if (range === "week") {
-//     //주간 박스오피스 기준으로 데이터를 합침
-//     rawArray = await getWeeklyRanking();
-//   } else {
-//     console.log(
-//       "mixData함수에 입력한 값이 올바르지 않습니다 대소문자 구분없이 Day 혹은 Week를 써 주세요"
-//     );
-//     return 0;
-//   }
-
-//   for (const index of rawArray) {
-//     let movieNm = index.movieNm; //영화진흥원의 이름을 저장
-//     const poster_Url = await searchMovieByName(movieNm);
-//     index.poster_path = poster_Url;
-//   }
-//   return rawArray;
-// };
-
-
-//병렬처리 작업
 export async function addPosterToTopRanking(range) {
   let rawArray //데이터를 합치기 전의 배열
 
