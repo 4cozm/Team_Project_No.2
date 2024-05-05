@@ -96,8 +96,6 @@ export async function getWeeklyRanking(range = 0) {
         })
         .catch(err => console.error(err));
 
-}
-
 //영화이름을 기준으로 검색한뒤 포스터 URL + 평점을 추가해줌 추가한 데이터는 TMDB.poster_path / TMDB.vote_average 로 접근가능
 async function searchMovieByName(movieName) { 
   return fetch(
