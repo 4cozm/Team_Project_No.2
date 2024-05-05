@@ -92,6 +92,10 @@ body {
   background-size: cover;
   overflow: hidden;
 }
+.imgBox>img{
+  max-width: 420px;
+  height: auto;
+}
 
 /*02_4 사진 슬라이드 할때 버튼*/
 .boxBtn{
