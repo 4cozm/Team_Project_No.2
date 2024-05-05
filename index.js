@@ -1,15 +1,13 @@
 //메인 로직을 구현하는 JS 파일입니다
-import { test, getTopRated, getDailyRanking, getWeeklyRanking, searchMovie, addPosterToTopRanking }
+import { test,addPosterToTopRanking }
   from './JS/function.js';
 
 test();
-let dailyRanking = []; //일일 랭킹 TOP 10 저장한 변수
-await addPosterToTopRanking("day").then((data) => {
+
+let dailyRanking=[];
+await addPosterToTopRanking("day").then((data)=>{
   dailyRanking = data;
 });
-//(약속 , 데이터)
-
-
 function mainMovie(num) {
   let imagePoster = document.createElement("img");
   imagePoster.setAttribute('src', dailyRanking[num].TMDB.posterUrl);
@@ -49,15 +47,15 @@ function ScrollMain() { //자동으로 메인 무비를 바꿔주는 함수
 };
 ScrollMain();
 
-
-// let results; //결과 담을 변수 미리 선언
-// await getTopRated().then((data) => {
-//   results = data;
-// });
-
-// console.log(results); //출력
-let dailyRanking=[];
-await addPosterToTopRanking("day").then((data)=>{
-  dailyRanking = data;
-});
-console.log(dailyRanking);
+function displayTodayTop(){
+    let todayMovieBox = document.querySelector(".todayMovie");
+    dailyRanking.forEach((index)=>{
+        let today=document.createElement("div");
+        today.classList.add(".todayMoviePoster");
+        today.innerHTML=`
+        <img class="todayMoviePoster" src="${index.TMDB.posterUrl}">
+        <div class="todayMovieTitle">${index.movieNm}</div> `
+        todayMovieBox.appendChild(today);
+    });
+}
+displayTodayTop();

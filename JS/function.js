@@ -88,13 +88,6 @@ export async function getWeeklyRanking(range = 0) {
 //     },
 //   };
 
-  return await fetch(fetch_url, options)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          return data;
-        })
-        .catch(err => console.error(err));
 
 //영화이름을 기준으로 검색한뒤 포스터 URL + 평점을 추가해줌 추가한 데이터는 TMDB.poster_path / TMDB.vote_average 로 접근가능
 async function searchMovieByName(movieName) { 
@@ -110,7 +103,9 @@ async function searchMovieByName(movieName) {
       return response.json();
     })
     .then((data) => {
-      const posterUrl ="https://image.tmdb.org/t/p/w500/"+data.results[0].poster_path;
+      let posterUrl ="https://image.tmdb.org/t/p/w500/"+data.results[0].poster_path;
+      if (posterUrl==undefined)
+          posterUrl = "gd";
       const voteAverage = data.results[0].vote_average;
       return { posterUrl, voteAverage };
     })
