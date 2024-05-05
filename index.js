@@ -1,18 +1,13 @@
 //메인 로직을 구현하는 JS 파일입니다
-import { test, getTopRated, getDailyRanking, getWeeklyRanking, searchMovie, addPosterToTopRanking }
-  from './JS/function.js';
-
+import { test, addPosterToTopRanking } from "./JS/function.js";
+window.addEventListener('load', fetchData);
 test();
-let dailyRanking = []; //일일 랭킹 TOP 10 저장한 변수
-await addPosterToTopRanking("day").then((data) => {
-  dailyRanking = data;
-});
-//(약속 , 데이터)
-
+let dailyRanking = []; //오늘의 영화 TOP 10
+let weekRanking = []; //이번주 영화 TOP 10
 
 function mainMovie(num) {
   let imagePoster = document.createElement("img");
-  imagePoster.setAttribute('src', dailyRanking[num].TMDB.posterUrl);
+  imagePoster.setAttribute("src", dailyRanking[num].TMDB.posterUrl);
   document.querySelector(".imgBox").appendChild(imagePoster);
 
   let mainPoster = document.createElement("div");
@@ -27,25 +22,105 @@ function mainMovie(num) {
         </div>
         <p class="movieReview"><i class='bx bxs-star'></i>${dailyRanking[num].TMDB.voteAverage}</p>
       </div>
-`
+`;
   document.querySelector(".moviePoster").appendChild(mainPoster);
-};
+}
 
 
-//함수는 기존있는 내용을 지운다. mainMovie 내부에 원하는 범위의 숫자를 넣어준다(자동으로)
-mainMovie(0); //초기 호출
 
-function ScrollMain() { //자동으로 메인 무비를 바꿔주는 함수
+
+function ScrollMain() {
+  //자동으로 메인 무비를 바꿔주는 함수
   let num = 0;
   setInterval(function () {
-    document.querySelector(".moviePoster").innerHTML = ' ';
-    document.querySelector(".imgBox").innerHTML = ' ';
+    document.querySelector(".moviePoster").innerHTML = " ";
+    document.querySelector(".imgBox").innerHTML = " ";
     mainMovie(num);
     num++;
     if (num > 3) {
       num = 0;
-    };
+    }
   }, 5000); // 시간을 ms 단위로 입력하여 바뀌는 시간을 조절
-};
-ScrollMain();
+}
 
+function addClickEvent(){ //각 포스터의 요소마다 클릭시 상세페이지로 이동하게 하는 함수
+  today.addEventListener("click",()=>{
+    window.location.href = "./HTML/search.html?q="+encodeURIComponent(index.movieNm);
+  });
+};
+
+
+function displayTodayTop() {
+  //오늘의 영화 TOP
+  let todayMovieBox = document.querySelector(".todayMovie");
+  dailyRanking.forEach((index) => {
+    let today = document.createElement("div");
+    today.classList.add(".todayMoviePoster");
+    today.innerHTML = `
+        <img class="todayMoviePoster" src="${index.TMDB.posterUrl}">
+        <div class="todayMovieTitle">${index.movieNm}</div> `;
+    todayMovieBox.appendChild(today);
+    today.addEventListener("click",()=>{
+      window.location.href = "./HTML/detailPage.html?q="+encodeURIComponent(index.movieNm);
+    });
+  });
+}
+
+let move = document.querySelector(".todayMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
+move.addEventListener("click", () => {
+  window.location.href = "./HTML/search.html";
+});
+
+function displayWeekTop() {
+  //이번주 영화 TOP
+  let weekMovieBox = document.querySelector(".weekMovie");
+  weekRanking.forEach((index) => {
+    let week = document.createElement("div");
+    week.classList.add(".weekMoviePoster");
+    week.innerHTML = `
+        <img class="weekMoviePoster" src=${index.TMDB.posterUrl}>
+        <div class="weekMovieTitle">${index.movieNm}</div>
+        `;
+    weekMovieBox.appendChild(week);
+  });
+}
+
+function fetchData() { //캐싱 구현 함수 @@캐시 만료시간 추가해야함@@
+  // 로컬 스토리지에서 데이터 가져오기
+  const Dcache = localStorage.getItem("dayCachedData");
+  const Wcache = localStorage.getItem("weekCachedData");
+
+  if (Dcache && Wcache) {
+    // 캐시된 데이터가 있으면 이를 사용하여 페이지 업데이트
+    console.log("캐싱 데이터 확인 완료. 캐싱데이터로 페이지를 구성합니다");
+    updatePageWithData(JSON.parse(Dcache), JSON.parse(Wcache));
+  } else {
+    // 캐시된 데이터가 없으면 서버에서 데이터 가져오기
+    console.log("캐싱 데이터 확인 불가. 캐싱데이터 저장후 페이지를 구성합니다");
+    CacheAndDisply();
+  }
+}
+
+async function CacheAndDisply() {
+  // 데이터를 로컬 스토리지에 캐시
+  await addPosterToTopRanking("day").then((data) => {
+    localStorage.setItem("dayCachedData", JSON.stringify(data));
+    dailyRanking = data;
+  });
+  await addPosterToTopRanking("week").then((data) => {
+    localStorage.setItem("weekCachedData", JSON.stringify(data));
+    weekRanking = data;
+  });
+  displayTodayTop();
+  displayWeekTop();
+  ScrollMain();
+}
+
+function updatePageWithData(Day, Week) {
+  dailyRanking = Day;
+  weekRanking = Week;
+  mainMovie(0); //초기 호출
+  displayTodayTop();
+  displayWeekTop();
+  ScrollMain();
+}

@@ -1,6 +1,6 @@
 //공통으로 사용할 기능을 구현하는 JS 파일입니다.
 export function test() {
-  console.log('function.js의 test 메서드와 연결이 잘 되었습니다');
+  console.log("function.js의 test 메서드와 연결이 잘 되었습니다");
 }
 const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY
 
@@ -27,8 +27,6 @@ export function getTopRated() {
     .catch((error) => console.error("Error fetching data:", error));
 }
 
-
-
 // 영화진흥위원회API용 날짜지정 함수
 function getBeforeDate(tar = -1) {
   let getToday = new Date();
@@ -38,7 +36,6 @@ function getBeforeDate(tar = -1) {
 
   return today;
 }
-
 
 // GET 영화진흥위원회 일별 박스오피스
 export async function getDailyRanking() {
@@ -60,48 +57,37 @@ export async function getDailyRanking() {
 
 // GET 영화진흥위원회 주간/주말 박스오피스
 // range 값 | 0 : 월~일 / 1 : 금~일 / 2 : 월~목 | 기본값 : 0 (월~일)
-export async function getWeeklyRanking(range=0) {
-
-  let key = '653c57a5ca2b00ae2ace38fd06de24a4';   // API-Key 값
-  let targetDate = `20240422`;    // 조회할 주의 시작일(월요일) 지정
+export async function getWeeklyRanking(range = 0) {
+  let key = "653c57a5ca2b00ae2ace38fd06de24a4"; // API-Key 값
+  let targetDate = `20240422`; // 조회할 주의 시작일(월요일) 지정
   let fetch_url = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=${key}&targetDt=${targetDate}&weekGb=${range}`;
 
   let res;
   return await fetch(fetch_url)
-    .then(response => response.json())
-    .then(data => {
-      res = data["boxOfficeResult"];
+    .then((response) => response.json())
+    .then((data) => {
+      res = data.boxOfficeResult.weeklyBoxOfficeList;
       return res;
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
     });
 }
 
+// // TMDB 이름으로 영화검색
+// export async function searchMovie(tar) {
+//   let target = "%" + tar + "%";
+//   let fetch_url = `https://api.themoviedb.org/3/search/movie?query=${target}&api_key=fa358c2e1d411f8ea7bc3e83b1552ccf`;
 
-// TMDB 이름으로 영화검색
-export async function searchMovie(tar) {
+//   const options = {
+//     method: "GET",
+//     headers: {
+//       accept: "application/json",
+//       Authorization:
+//         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYTM1OGMyZTFkNDExZjhlYTdiYzNlODNiMTU1MmNjZiIsInN1YiI6IjY2MjlmZTMxZjcwNmRlMDExZjRmZGQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CuaQoR0S4oo5lny0tSRCC7p-siuCDsw9zZjwkKA1yiM",
+//     },
+//   };
 
-  let target = '%' + tar + '%';
-  let fetch_url = `https://api.themoviedb.org/3/search/movie?query=${target}&api_key=fa358c2e1d411f8ea7bc3e83b1552ccf`;
-
-  const options = {
-      method: 'GET',
-      headers: {
-          accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYTM1OGMyZTFkNDExZjhlYTdiYzNlODNiMTU1MmNjZiIsInN1YiI6IjY2MjlmZTMxZjcwNmRlMDExZjRmZGQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CuaQoR0S4oo5lny0tSRCC7p-siuCDsw9zZjwkKA1yiM'
-      }
-  };
-
-  return await fetch(fetch_url, options)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-          return data;
-        })
-        .catch(err => console.error(err));
-
-}
 
 //영화이름을 기준으로 검색한뒤 포스터 URL + 평점을 추가해줌 추가한 데이터는 TMDB.poster_path / TMDB.vote_average 로 접근가능
 async function searchMovieByName(movieName) { 
@@ -117,7 +103,9 @@ async function searchMovieByName(movieName) {
       return response.json();
     })
     .then((data) => {
-      const posterUrl ="https://image.tmdb.org/t/p/w500/"+data.results[0].poster_path;
+      let posterUrl ="https://image.tmdb.org/t/p/w500/"+data.results[0].poster_path;
+      if (posterUrl==undefined)
+          posterUrl = "gd";
       const voteAverage = data.results[0].vote_average;
       return { posterUrl, voteAverage };
     })
