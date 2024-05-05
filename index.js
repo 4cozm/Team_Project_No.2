@@ -1,11 +1,12 @@
 //메인 로직을 구현하는 JS 파일입니다
 import { test, addPosterToTopRanking } from "./JS/function.js";
-window.addEventListener('load', fetchData);
+window.addEventListener("load", fetchData);
 test();
 let dailyRanking = []; //오늘의 영화 TOP 10
 let weekRanking = []; //이번주 영화 TOP 10
 
 function mainMovie(num) {
+  //메인페이지 상단 부분
   let imagePoster = document.createElement("img");
   imagePoster.setAttribute("src", dailyRanking[num].TMDB.posterUrl);
   document.querySelector(".imgBox").appendChild(imagePoster);
@@ -24,10 +25,11 @@ function mainMovie(num) {
       </div>
 `;
   document.querySelector(".moviePoster").appendChild(mainPoster);
+  mainPoster.addEventListener("click", () => {
+    window.location.href =
+      "./HTML/search.html?q=" + encodeURIComponent(index.movieNm);
+  });
 }
-
-
-
 
 function ScrollMain() {
   //자동으로 메인 무비를 바꿔주는 함수
@@ -43,13 +45,6 @@ function ScrollMain() {
   }, 5000); // 시간을 ms 단위로 입력하여 바뀌는 시간을 조절
 }
 
-function addClickEvent(){ //각 포스터의 요소마다 클릭시 상세페이지로 이동하게 하는 함수
-  today.addEventListener("click",()=>{
-    window.location.href = "./HTML/search.html?q="+encodeURIComponent(index.movieNm);
-  });
-};
-
-
 function displayTodayTop() {
   //오늘의 영화 TOP
   let todayMovieBox = document.querySelector(".todayMovie");
@@ -60,8 +55,9 @@ function displayTodayTop() {
         <img class="todayMoviePoster" src="${index.TMDB.posterUrl}">
         <div class="todayMovieTitle">${index.movieNm}</div> `;
     todayMovieBox.appendChild(today);
-    today.addEventListener("click",()=>{
-      window.location.href = "./HTML/detailPage.html?q="+encodeURIComponent(index.movieNm);
+    today.addEventListener("click", () => {
+      window.location.href =
+        "./HTML/detailPage.html?q=" + encodeURIComponent(index.movieNm);
     });
   });
 }
@@ -82,10 +78,15 @@ function displayWeekTop() {
         <div class="weekMovieTitle">${index.movieNm}</div>
         `;
     weekMovieBox.appendChild(week);
+    week.addEventListener("click", () => {
+      window.location.href =
+        "./HTML/search.html?q=" + encodeURIComponent(index.movieNm);
+    });
   });
 }
 
-function fetchData() { //캐싱 구현 함수 @@캐시 만료시간 추가해야함@@
+function fetchData() {
+  //캐싱 구현 함수 @@캐시 만료시간 추가해야함@@
   // 로컬 스토리지에서 데이터 가져오기
   const Dcache = localStorage.getItem("dayCachedData");
   const Wcache = localStorage.getItem("weekCachedData");
