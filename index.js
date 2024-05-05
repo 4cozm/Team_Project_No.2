@@ -6,27 +6,30 @@ test();
 
 // dataFetched에서 더 짧은 recv로 변경 : 편하게 관리하기 위해서 교체 함
 
+
 // 평점-순위 테스트
 let recv = getTopRated();
 console.log(recv);
 
+
 // 일간-순위 테스트
 let Day_Rank = {};
-recv = getDailyRanking()
+recv = await getDailyRanking()
   .then(data => {
-    console.log(data);
-    Day_Rank = new Object(data);
-    console.log(Day_Rank);
+    Day_Rank = data;
     return data;
   });
 console.log(recv);
 console.log(Day_Rank);
 
+
 // 주간-순위 테스트
-recv = getWeeklyRanking()
+let Week_Rank;
+Week_Rank = await getWeeklyRanking()
   .then(data => {
-    console.log(data);
+    return data;
   });
+console.log(Week_Rank);
 
 // 검색 테스트
 let target_search = '범죄';
