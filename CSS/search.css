@@ -5,7 +5,9 @@
     width: 10%;
     height: 80%;
 }
-
+.logo{
+    cursor: pointer;
+}
 .container-fluid{
     display:flex;
     justify-content: space-around;
