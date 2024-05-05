@@ -51,6 +51,7 @@ function ScrollMain() {
 ScrollMain();
 
 function displayTodayTop() {
+  //오늘의 영화 TOP
   let todayMovieBox = document.querySelector(".todayMovie");
   dailyRanking.forEach((index) => {
     let today = document.createElement("div");
@@ -63,7 +64,13 @@ function displayTodayTop() {
 }
 displayTodayTop();
 
+let move = document.querySelector(".todayMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
+move.addEventListener("click", () => {
+  window.location.href = "./HTML/search.html";
+});
+
 function displayWeekTop() {
+  //이번주 영화 TOP
   let weekMovieBox = document.querySelector(".weekMovie");
   weekRanking.forEach((index) => {
     let week = document.createElement("div");

@@ -1,0 +1,84 @@
+@import "./colors.css";
+
+.navbar-brand{
+    background-color:var( --pinkLight);
+    width: 10%;
+    height: 80%;
+}
+
+.container-fluid{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 2px solid var(--pinkDark);
+
+    width: 100%;
+    height: 60px;
+
+
+}
+
+.button{
+  
+    display:flex;
+    flex-direction: column;
+    margin-right: 13%;
+    margin-left: auto;
+    margin-top: 50px;
+
+    width: 80px;
+}
+
+.btn_name{
+    margin-bottom: 5px;   
+    background-color:var(--inputBox);
+    color: var(--pinkDark);
+}
+.btn_new{
+    margin-bottom: 5px;
+    background-color: var(--inputBox);
+    color: var(--pinkDark);
+}
+.btn_recommended{
+    margin-bottom: 50px;
+    background-color: var(--inputBox);
+    color:var(--pinkDark);
+}
+
+#btn_submit{
+    background-color: var(--inputBox);
+    color:var(--pinkDark);
+}
+
+#cards{
+    display: flex;
+    max-width: 100%;
+    max-height: auto;
+    padding: 5px;
+    margin: 5px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    
+    
+}
+
+.col{
+    background-color: var( --pinkLight);
+    max-width: 20%;
+    text-align: center;
+    margin: 10px;
+
+    border: transparent;
+    border-radius: 8px;
+    
+    cursor: pointer;
+   
+}
+
+.card-footer{
+    padding-bottom: 10px; 
+}
+
+body {
+    background-color: var(--backGround);
+  }
