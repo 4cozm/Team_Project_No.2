@@ -28,6 +28,7 @@ function mainMovie(num) {
 
 
 
+
 function ScrollMain() {
   //자동으로 메인 무비를 바꿔주는 함수
   let num = 0;
@@ -42,6 +43,13 @@ function ScrollMain() {
   }, 5000); // 시간을 ms 단위로 입력하여 바뀌는 시간을 조절
 }
 
+function addClickEvent(){ //각 포스터의 요소마다 클릭시 상세페이지로 이동하게 하는 함수
+  today.addEventListener("click",()=>{
+    window.location.href = "./HTML/search.html?q="+encodeURIComponent(index.movieNm);
+  });
+};
+
+
 function displayTodayTop() {
   //오늘의 영화 TOP
   let todayMovieBox = document.querySelector(".todayMovie");
@@ -52,6 +60,9 @@ function displayTodayTop() {
         <img class="todayMoviePoster" src="${index.TMDB.posterUrl}">
         <div class="todayMovieTitle">${index.movieNm}</div> `;
     todayMovieBox.appendChild(today);
+    today.addEventListener("click",()=>{
+      window.location.href = "./HTML/detailPage.html?q="+encodeURIComponent(index.movieNm);
+    });
   });
 }
 
