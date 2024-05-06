@@ -4,9 +4,12 @@ export function test() {
 }
 const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY
 const googleApikey = "AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50"; //google custom search API KEY
-const searchEngineID = "e6605cbb614a4422a"; //구글 검색 엔진 ID
+
+const searchEngineID = "e6605cbb614a4422a"; //구글 엔진 ID
+const kobisApiKey = "653c57a5ca2b00ae2ace38fd06de24a4"; //영화진흥 위원회 API KEY
+
 // GET TheMovieDB Top-Rated
-export function getTopRated() {
+export async function getTopRated() {
   const options = {
     method: "GET",
     headers: {
@@ -22,7 +25,6 @@ export function getTopRated() {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data.results;
     })
     .catch((error) => console.error("Error fetching data:", error));
@@ -43,11 +45,9 @@ function getBeforeDate(tar = -1) {
 
 // GET 영화진흥위원회 일별 박스오피스
 export async function getDailyRanking() {
-  const key = "653c57a5ca2b00ae2ace38fd06de24a4"; // API-Key 값
   const targetDate = getBeforeDate(); // 당일조회는 되지않음
-
   return fetch(
-    `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${key}&targetDt=${targetDate}`
+    `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${kobisApiKey}&targetDt=${targetDate}`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -77,76 +77,50 @@ export async function getWeeklyRanking(range = 0) {
       console.error(err);
     });
 }
+//영화이름을 기준으로 TMDB에서 검색한뒤 포스터URL,평점,줄거리를 추가해줌 추가한 데이터는 TMDB.poster_path / TMDB.vote_average / TMDB.overView로 접근가능
 
-// // TMDB 이름으로 영화검색
-// export async function searchMovie(tar) {
-//   let target = "%" + tar + "%";
-//   let fetch_url = `https://api.themoviedb.org/3/search/movie?query=${target}&api_key=fa358c2e1d411f8ea7bc3e83b1552ccf`;
-
-//   const options = {
-//     method: "GET",
-//     headers: {
-//       accept: "application/json",
-//       Authorization:
-//         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYTM1OGMyZTFkNDExZjhlYTdiYzNlODNiMTU1MmNjZiIsInN1YiI6IjY2MjlmZTMxZjcwNmRlMDExZjRmZGQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CuaQoR0S4oo5lny0tSRCC7p-siuCDsw9zZjwkKA1yiM",
-//     },
-//   };
-
-//영화이름을 기준으로 검색한뒤 포스터 URL + 평점을 추가해줌 추가한 데이터는 TMDB.poster_path / TMDB.vote_average 로 접근가능
 async function searchMovieByName(movieName) {
-  let posterUrl, voteAverage;
-
+  const SpacedMovieNm = addSpace(movieName);
+  let posterUrl = "";
+  let voteAverage = 0;
+  let overView = "줄거리 없음";
+  let movieData;
   try {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
-        movieName
-      )}`
-    );
+      await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(SpacedMovieNm)}&language=ko`
+    ).then((response)=>response.json()).then((data)=>{movieData=data});
+      posterUrl = "https://image.tmdb.org/t/p/w500/" + movieData.results[0].poster_path;
+      voteAverage = movieData.results[0].vote_average;
+      overView = movieData.results[0].overview;
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const data = await response.json();
-    posterUrl =
-      "https://image.tmdb.org/t/p/w500/" + data.results[0].poster_path;
-      if(data.results[0].poster_path == null){
-        throw new Error("TMDB사이트에 이미지정보가 null인것을 감지했습니다");
-      }
   } catch (error) {
-    console.error("TMDB에서 사진을 가지고 오는데 실패했습니다:", error);
-    try {
-      const altPoster = await altSearchPoster(movieName);
-      posterUrl = altPoster;
-    } catch (altError) {
-      console.error(
-        "대체 이미지를 가져오는 코드를 시행하던중 문제발생:",
-        altError
-      );
-    }
+    console.error("영화 검색 중 오류 발생:", error);
   }
 
-  try {
-    // 두 번째 요청에서 평점 정보를 가져옴
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
-        movieName
-      )}`
-    );
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const data = await response.json();
-    voteAverage = data.results[0].vote_average;
-  } catch (error) {
-    console.error("TMDB에서 평점을 가지고 오는데 실패했습니다:", error);
-    voteAverage = "평가없음";
+  if (movieData.results[0].poster_path || movieData.results[0].poster_path==null) {
+    console.log(SpacedMovieNm + "의 이미지 정보가 없습니다.");
+    const altPoster = await altSearchPoster(SpacedMovieNm);
+    posterUrl = altPoster;
   }
-  return { posterUrl, voteAverage };
+
+  if (voteAverage === 0) {
+    console.log(SpacedMovieNm + "의 평점을 가져오지 못했습니다.");
+  }
+
+
+  if (overView === "줄거리 없음") {
+    console.log(SpacedMovieNm + "의 줄거리를 찾을 수 없습니다.");
+  }
+
+  return { posterUrl, voteAverage, overView };
 }
 
+
+ 
 export async function addPosterToTopRanking(range) {
+
+  //function.js 외부에서 영화진흥원의 정보를 받기 위한 API
+
   let rawArray; //데이터를 합치기 전의 배열
 
   range = range.toLowerCase();
@@ -184,7 +158,7 @@ async function altSearchPoster(movieName) {
     "&cx=" +
     searchEngineID +
     "&q=" +
-    encodeURIComponent(movieName + "포스터 나무위키") +
+    encodeURIComponent(movieName) +
     "&searchType=image" +
     "&num=1";
   return fetch(requestUrl)
@@ -205,6 +179,40 @@ async function altSearchPoster(movieName) {
       console.error("꺼무위키에도 사진 못찾음", error);
     });
 }
-// 이미지 검색을 요청하는 URL 생성
 
-// fetch를 사용하여 이미지 검색 API 호출
+//영화이름을 기반으로 영화진흥위원회에서 값을 찾음, 이후 포스터 이미지,줄거리,평점을 TMDB로 부터 요청함
+
+export async function findToMovieName(movieName) {
+  console.log("영화 이름 검색 시작:"+movieName);
+  const fetch_url = `http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${kobisApiKey}&movieNm=${encodeURIComponent(
+    movieName
+  )}`;
+  return await fetch(fetch_url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      let result = data.movieListResult.movieList[0];
+      return searchMovieByName(result.movieNm).then((data) => {
+        result.TMDB = data;
+        return result;
+      });
+    });
+}
+
+
+
+function addSpace(str) { //시리즈물 번호 사이를 띄워주는 함수
+  //TMDB의 영화이름 검색은 시리즈물에 포함된 시리즈 번호 앞에 띄워쓰기가 없으면 검색이 안된다..... 쿵푸팬더4=X / 쿵푸팬더 4=O
+  if (str.length > 0) {
+      const lastChar = str.charAt(str.length - 1);
+      if (!isNaN(parseInt(lastChar))) {
+          return str.slice(0, -1) + ' ' + lastChar;
+      }
+  }
+  return str;
+}
+
