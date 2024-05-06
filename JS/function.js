@@ -27,7 +27,7 @@ export function getTopRated() {
     })
     .catch((error) => console.error("Error fetching data:", error));
 }
-
+console.log(getTopRated());
 // 영화진흥위원회API용 날짜지정 함수
 function getBeforeDate(tar = -1) {
   let getToday = new Date();
@@ -92,9 +92,9 @@ export async function getWeeklyRanking(range = 0) {
 //     },
 //   };
 
-//영화이름을 기준으로 검색한뒤 포스터 URL + 평점을 추가해줌 추가한 데이터는 TMDB.poster_path / TMDB.vote_average 로 접근가능
+//영화이름을 기준으로 검색한뒤 포스터URL,평점,줄거리를 추가해줌 추가한 데이터는 TMDB.poster_path / TMDB.vote_average / TMDB.overView로 접근가능
 async function searchMovieByName(movieName) {
-  let posterUrl, voteAverage;
+  let posterUrl, voteAverage, overView;
 
   try {
     const response = await fetch(
@@ -110,9 +110,9 @@ async function searchMovieByName(movieName) {
     const data = await response.json();
     posterUrl =
       "https://image.tmdb.org/t/p/w500/" + data.results[0].poster_path;
-      if(data.results[0].poster_path == null){
-        throw new Error("TMDB사이트에 이미지정보가 null인것을 감지했습니다");
-      }
+    if (data.results[0].poster_path == null) {
+      throw new Error("TMDB사이트에 이미지정보가 null인것을 감지했습니다");
+    }
   } catch (error) {
     console.error("TMDB에서 사진을 가지고 오는데 실패했습니다:", error);
     try {
@@ -143,10 +143,29 @@ async function searchMovieByName(movieName) {
     console.error("TMDB에서 평점을 가지고 오는데 실패했습니다:", error);
     voteAverage = "평가없음";
   }
-  return { posterUrl, voteAverage };
+
+  try {
+    // 세번째 요청에서 줄거리 정보를 가져옴
+    const response = await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
+        movieName)+"&language=ko-KR"}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    overView = data.results[0].overview;
+  } catch (error) {
+    console.error("TMDB에서 줄거리를 가지고 오는데 실패했습니다:", error);
+    overView = "줄거리 없음";
+  }
+
+  return { posterUrl, voteAverage, overView };
 }
 
 export async function addPosterToTopRanking(range) {
+  //function.js 외부에서 영화진흥원의 정보를 받기 위한 API
   let rawArray; //데이터를 합치기 전의 배열
 
   range = range.toLowerCase();
@@ -208,3 +227,4 @@ async function altSearchPoster(movieName) {
 // 이미지 검색을 요청하는 URL 생성
 
 // fetch를 사용하여 이미지 검색 API 호출
+console.log(getDailyRanking());

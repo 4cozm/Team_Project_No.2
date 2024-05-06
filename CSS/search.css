@@ -79,8 +79,24 @@
 
 .card-footer{
     padding-bottom: 10px; 
+    overflow-y: auto;
 }
 
 body {
     background-color: var(--backGround);
   }
+
+
+.card-title{
+    overflow: hidden;
+    height: 200px;
+    font-size: 2vw;
+}
+.card>img{
+    max-width: 300px;
+    height: auto;
+}
+.card{
+    max-height: 600px;
+    height: 200px;
+}
