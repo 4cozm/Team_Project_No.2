@@ -4,6 +4,7 @@ export function test() {
 }
 const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY
 const googleApikey = "AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50"; //google custom search API KEY
+
 const searchEngineID = "e6605cbb614a4422a"; //구글 엔진 ID
 const kobisApiKey = "653c57a5ca2b00ae2ace38fd06de24a4"; //영화진흥 위원회 API KEY
 
@@ -106,6 +107,7 @@ async function searchMovieByName(movieName) {
     console.log(SpacedMovieNm + "의 평점을 가져오지 못했습니다.");
   }
 
+
   if (overView === "줄거리 없음") {
     console.log(SpacedMovieNm + "의 줄거리를 찾을 수 없습니다.");
   }
@@ -114,8 +116,11 @@ async function searchMovieByName(movieName) {
 }
 
 
+ 
 export async function addPosterToTopRanking(range) {
+
   //function.js 외부에서 영화진흥원의 정보를 받기 위한 API
+
   let rawArray; //데이터를 합치기 전의 배열
 
   range = range.toLowerCase();
@@ -210,3 +215,4 @@ function addSpace(str) { //시리즈물 번호 사이를 띄워주는 함수
   }
   return str;
 }
+
