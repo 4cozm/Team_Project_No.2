@@ -1,5 +1,7 @@
 //메인 로직을 구현하는 JS 파일입니다
-import { test, addPosterToTopRanking } from "./JS/function.js";
+import
+{ test, addPosterToTopRanking, getTopRated, getDailyRanking, getWeeklyRanking, searchMovie }
+from "./JS/function.js";
 window.addEventListener("load", fetchData);
 test();
 let dailyRanking = []; //오늘의 영화 TOP 10
