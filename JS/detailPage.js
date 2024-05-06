@@ -83,3 +83,7 @@ function displayMovie(movieData) { //영화 정보를 삽입하면 화면에 출
   underInfo.appendChild(newOverView);
 }
 
+let homeButton = document.querySelector(".home");
+homeButton.addEventListener("click",()=>{
+  window.location.href = "../index.html";
+});
