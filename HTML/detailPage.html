@@ -14,6 +14,37 @@
     <link rel="stylesheet" href="../CSS/deatilPage.css" />
   </head>
   <body>
+      <!--01_네비게이션-->
+  <nav id="navbar" class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <img class="navbar-brand" src="../image/age/COFFEE_MOVIE.png"  ></a>
+      <form class="d-flex">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button id="btn_submit" class="btn btn-outline-success" type="submit">검색</button>
+      </form>
+    </div>
+  </nav>
+
+  <!--02_1 영화 포스터, 간단한 내용 보여주기-->
+  <div class = "movieContainer">
+    <div class="movieInfo">
+      <p class="movieTitle" >엘리멘탈</p>
+      <p class="movieRelease" >출시일:</p>
+      <p class="movieDirector" >감독:머시기머머</p>
+      <p class="movieMaker" >제작사:월트 디즈니 픽처스</p>
+    </div>
+    <!--02_3 영화 포스터사진 넣을때 크기-->
+    <div class="moviePoster">
+      <img src="../image/poster/01_엘리멘탈.jpg">
+    </div>
+  </div> 
+
+
     <div class="underContainer">
       <!--아랫쪽 컨테이너들의 가장 외부 부모요소-->
       <div class="underButtonContainer">
@@ -54,13 +85,6 @@
             초라하고 허름한 건물 안에서, 버니는 고향에서 들고 온 푸른 불이 담긴
             랜턴에서 손으로 불을 집어 아이에게 넣어주고, '앰버'라는 이름을
             지어준다.
-          </div>
-          <div class="movieInfo">
-            <img id="movieInfoAge" src="" />
-            <p id="moveInfoRelease">출시일:2023.06.14</p>
-            <p id="movieInfoGenre">장르:애니메이션</p>
-            <p id="moveInfoDirector">감독: 피터 손</p>
-            <p id="movieInfoCast">출현진:한강 고양이</p>
           </div>
         </div>
         <form class="underReviewForm">

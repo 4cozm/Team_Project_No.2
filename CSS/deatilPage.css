@@ -18,10 +18,78 @@ body {
   background-color: var(--backGround);
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+/* 네비게이션바 */
+.navbar{
+  position: fixed;
+  top:0px;
+  overflow: hidden;
+  background-color: var(--backGround) !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+  width: 100vw;
+  height: 80px;
+  padding:0px;
+  z-index: 1;
+}
+.container-fluid{
+  max-height: 45px;
+}
+.navbar-brand{
+  max-height: 35px;
+  margin: 0px;
+  padding:0px;
+}
+.d-flex{
+  width: 300px;
+  height: 35px;
+}
+#btn_submit{
+  font-size: 15px;
+  width: 100px;
+}
+/* ------------------------------------- */
+
+
+/* 상단 포스터 부분 */
+.movieContainer{
+  padding:50px;
+  margin-top: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--pinkLight);
+  width: 100vw;
+}
+.moviePoster,.movieInfo{
+  overflow: hidden;
+  width: 450px;
+  height: 640px;
+  border-radius: 10px;
+  background-color: var(--pinkLight);
+}
+.movieInfo{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.movieTitle{
+  font-size: 50px;
+}
+.movieRelease{
+  font-size: 30px;
+}
+.movieDirector{
+  font-size: 20px;
+}
+.movieMaker{
+  font-size: 15px;
 }
 
+/* ------------- */
 .underContainer {
-  margin-top: 30vh; /*윗부분 제작시 삭제*/
+  margin-top: 10vh; /*윗부분 제작시 삭제*/
   flex-direction: column;
   width: 50vw;
   height: auto;
@@ -41,12 +109,12 @@ body {
   width: auto;
   height: 40px;
   display: flex;
-  background-color: teal;
   cursor: pointer;
 }
 .form-floating {
   box-shadow: 2px 2px 3px var(--pinkDark); /*input 태그들 그림자설정*/
   margin-top: 5px;
+  z-index: 0;
 }
 
 .underInfoForm {
@@ -58,7 +126,7 @@ body {
 }
 .overView {
   overflow-y: auto;
-  height: 30vh;
+  height: 100%;
   padding: 20px;
   border-bottom: 0.1px solid var(--pinkDark);
 }
