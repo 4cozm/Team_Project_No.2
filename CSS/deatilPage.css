@@ -61,11 +61,12 @@ body {
   justify-content: space-around;
   background-color: var(--pinkLight);
   width: 100vw;
+  height: 80vh;
 }
 .moviePoster,.movieInfo{
   overflow: hidden;
   width: 450px;
-  height: 640px;
+  height: 100%;
   border-radius: 10px;
   background-color: var(--pinkLight);
 }
