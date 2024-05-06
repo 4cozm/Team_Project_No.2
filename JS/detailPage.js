@@ -38,3 +38,8 @@ infoButton.addEventListener("click", () => { //주요정보를 누르면
   document.querySelector(".underReviewForm").style.display="none";
   document.querySelector(".underInfoForm").style.display="";
 });
+
+
+
+let searchParams = new URLSearchParams(window.location.search).get('q'); //검색결과를 받아오는 테스트 코드~~
+console.log(searchParams);
