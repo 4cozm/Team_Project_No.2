@@ -3,14 +3,13 @@ import { test, addPosterToTopRanking } from "./JS/function.js";
 window.addEventListener("load", fetchData);
 test();
 
-
 // 검색버튼 클릭시 수행 : 검색페이지로 파라미터값 추가하여 전달
-let searchButton = document.querySelector("#btn_search");
+let searchButton = document.querySelector("#btn_submit");
 searchButton.addEventListener("click", (event) => {
   event.preventDefault();
-  let target = document.querySelector("#inputSearch").value;
+  let target = document.querySelector(".inputSearch").value;
   // 경로 : ./HTML폴더/html파일?파라미터=value
-  let searchURL = "./HTML/search.html?q="+target;
+  let searchURL = "./HTML/search.html?q=" + target;
   location.href = searchURL;
 });
 
@@ -98,7 +97,6 @@ function displayWeekTop() {
 }
 
 function fetchData() {
-
   //캐싱 구현 함수 @@캐시 만료시간 추가해야함 github issue 확인@@
 
   // 로컬 스토리지에서 데이터 가져오기
@@ -139,3 +137,4 @@ function updatePageWithData(Day, Week) {
   displayWeekTop();
   ScrollMain();
 }
+

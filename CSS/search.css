@@ -1,5 +1,7 @@
 @import "./colors.css";
-
+body{
+    position: relative;
+}
 .navbar-brand{
     background-color:var( --pinkLight);
     width: 10%;
@@ -99,4 +101,14 @@ body {
 .card{
     max-height: 600px;
     height: 200px;
+}
+
+/* 로딩고양이 */
+.loadingCat{
+    width: 10vw;
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom:300px;
 }

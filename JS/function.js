@@ -208,6 +208,7 @@ export async function findToMovieName(movieName) {
     })
     .then((data) => {
       let result = data.movieListResult.movieList[0];
+      console.log(result);
       return searchMovieByName(result.movieNm).then((data) => {
         result.TMDB = data;
         return result;

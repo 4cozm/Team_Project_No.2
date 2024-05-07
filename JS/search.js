@@ -21,13 +21,16 @@ home.addEventListener("click", () => {
 이후 해당 배열을 화면배치 함수로 전달
  */
 
-import { test, addPosterToTopRanking } from "./function.js";
+import { test, addPosterToTopRanking, findToMovieName } from "./function.js";
+import { movieList } from "./movieList.js";
 
 test();
 
 let dailyRanking;
+let dailyRankingList = [];
 await addPosterToTopRanking("day").then((data) => {
   dailyRanking = data;
+  dailyRankingList.push(data);
 });
 
 console.log(dailyRanking);
@@ -53,3 +56,45 @@ function postMovie(movieArray) {
 }
 
 postMovie(dailyRanking);
+
+let timer;
+let referIndex = 1;
+let roading = false;
+const cat = document.querySelector(".loadingCat")
+window.onscroll = function () {
+  if (roading === false) {
+    clearTimeout(timer);
+    timer = setTimeout(async function () {
+      var windowHeight = window.innerHeight;
+      var currentScroll = window.scrollY;
+      var totalHeight = document.body.scrollHeight;
+
+      if (currentScroll + windowHeight >= totalHeight) {
+        roading = true;
+        cat.style.display="block";
+        console.log("로딩중: " + referIndex + "페이지");
+        const newMovieNm = movieList(referIndex);
+        let nextPage = [];
+
+        // 각각의 비동기 호출을 병렬로 처리합니다.
+        const promises = newMovieNm.map(index => findToMovieName(index));
+
+        // 모든 비동기 호출이 완료될 때까지 기다립니다.
+        await Promise.all(promises)
+          .then(results => {
+            // 결과를 nextPage 배열에 추가합니다.
+            nextPage = results;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+
+        // 병렬로 처리된 결과를 postMovie 함수에 전달합니다.
+        cat.style.display="none";
+        postMovie(nextPage);
+        referIndex++;
+        roading = false;
+      }
+    }, 100); // 0.1초간 동작을 기다립니다.
+  }
+};
