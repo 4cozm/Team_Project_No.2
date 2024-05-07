@@ -13,21 +13,16 @@
     justify-content: space-around;
     align-items: center;
     border-bottom: 2px solid var(--pinkDark);
-
     width: 100%;
     height: 60px;
-
-
 }
 
 .button{
-  
     display:flex;
     flex-direction: column;
     margin-right: 13%;
     margin-left: auto;
     margin-top: 50px;
-
     width: 80px;
 }
 
@@ -60,7 +55,6 @@
     margin: 5px;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    
 }
 
 .col{
@@ -68,12 +62,9 @@
     max-width: 20%;
     text-align: center;
     margin: 10px;
-
     border: transparent;
     border-radius: 8px;
-    
     cursor: pointer;
-   
 }
 
 .card-footer{
@@ -83,13 +74,14 @@
 
 body {
     background-color: var(--backGround);
-  }
+}
 
 
 .card-title{
     overflow: hidden;
     height: 200px;
     font-size: 2vw;
+    white-space: nowrap; /*긴 제목 넘어가는거는 잘리게*/
 }
 .card>img{
     max-width: 300px;
