@@ -2,20 +2,20 @@
 import { test, addPosterToTopRanking } from "./JS/function.js";
 window.addEventListener("load", fetchData);
 test();
+let dailyRanking = []; //오늘의 영화 TOP 10
+let weekRanking = []; //이번주 영화 TOP 10
 
 
 // 검색버튼 클릭시 수행 : 검색페이지로 파라미터값 추가하여 전달
-let searchButton = document.querySelector("#btn_search");
+let searchButton = document.querySelector("#btn_submit");
 searchButton.addEventListener("click", (event) => {
   event.preventDefault();
-  let target = document.querySelector("#inputSearch").value;
+  let target = document.querySelector(".inputSearch").value;
   // 경로 : ./HTML폴더/html파일?파라미터=value
   let searchURL = "./HTML/search.html?q="+target;
   location.href = searchURL;
 });
 
-let dailyRanking = []; //오늘의 영화 TOP 10
-let weekRanking = []; //이번주 영화 TOP 10
 
 function mainMovie(num) {
   //메인페이지 상단 부분
