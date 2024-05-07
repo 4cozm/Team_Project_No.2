@@ -29,6 +29,16 @@ const search = function (){
   })
 }
 
+//enter 키 눌러서 검색하기 버튼 활성화하기
+function enterkey() {
+  if (window.event.keyCode == 13) {
+    search();
+  }
+}
+
+
+
+
 let dailyRanking;
 await addPosterToTopRanking("day").then((data) => {
   dailyRanking = data;
