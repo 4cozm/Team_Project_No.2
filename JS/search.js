@@ -17,9 +17,22 @@ import { test, addPosterToTopRanking } from "./function.js";
 
 test();
 
+// 검색버튼 눌러서 영화 포스터 제목 검색하기
+// #btn_submit 버튼을 클릭하면 입력받은 데이터를 가져온다
+const search = function (){
+  let search = document.querySelector("#btn_submit");
+
+  search.addEventListener("click", (event) => {
+    event.preventDefault();
+    const input = document.querySelector(".form-control").value; 
+    process(input, dailyRanking); 
+  })
+}
+
 let dailyRanking;
 await addPosterToTopRanking("day").then((data) => {
   dailyRanking = data;
+  search();
 });
 
 console.log(dailyRanking);
@@ -55,28 +68,23 @@ postMovie(dailyRanking);
 이후 해당 배열을 화면배치 함수로 전달
  */
 
-
-// 검색버튼 눌러서 영화 포스터 제목 검색하기
-// #btn_submit 버튼을 클릭하면 입력받은 데이터를 가져온다
-const search = document.querySelector("#btn_submit");
-search.addEventListener("click", () => {
-  const input = document.querySelector(".form-control").value; 
-  process(input, dailyRanking); 
-})
-
 // 입력한 영화제목과 불러온  api  데이터와 비교
 let process = function (input, movieInformation) {
   const search_arr = [];
-  document.querySelector(".movieBox").innerHTML = "";
+  let movieBox = document.querySelector("#cards");
+  movieBox.innerHTML = " ";
   console.log(movieInformation);
   movieInformation.forEach(array => {
 
     // 입력한 영화제목과 불러와야될 영화 제목이 일치하면 영화 정보를 .push 2차 배열로 불러온다
     // 하지만 일치하지 않으면, 그대로 둔다.
-    const title = array.title.toLowerCase(); // 소문자로 변환
+    const title = array.movieNm.toLowerCase(); // 소문자로 변환
+
     if (title.includes(input.toLowerCase())) {
+      console.log(array);
       search_arr.push(array);
     }
   })
-  poster(search_arr);
+  console.log(search_arr);
+  postMovie(search_arr);
 }
