@@ -4,27 +4,10 @@ home.addEventListener("click", () => {
   window.location.href = "../index.html";
 });
 
-/*전체보기 페이지 Js구현 
-
-1. html, api를 불러와 화면에 출력한다
-    api : 오늘의 top, 주간 top 영화
-2. 영화 정보는 포스터, 제목, 평점
-3. 화면배치 함수를 구현
-4. 그 함수가 배열정보를 받으면 자동으로 화면에 요소들을 배치하도록 한다
- */
-
-/*
-검색기능 구현
-1. 검색창에 영화 포스터 제목을 쓴다.
-2. 검색창을 클릭하면 영화 포스터 제목과 일치하는 전체 영화 정보를 보여준다.
-3.사용자에게 input으로 화면에 이미 출력되어 있는 요소들 중 해당 검색결과가 있는지 확인후 해당 array를 새 array에 push()
-이후 해당 배열을 화면배치 함수로 전달
- */
-
-import { test, addPosterToTopRanking } from "./function.js";
+import { test, addPosterToTopRanking, findToMovieNameAll} from "./function.js";
 
 test();
-
+let searchResults;
 let dailyRanking;
 await addPosterToTopRanking("day").then((data) => {
   dailyRanking = data;
@@ -52,4 +35,29 @@ function postMovie(movieArray) {
   });
 }
 
-postMovie(dailyRanking);
+
+
+
+// 문자열 바탕으로 정보 호출하기
+// 호출한 정보를 표시하기
+// 1.오늘의 영화 뜨는거 막기 
+//1-1. 무슨 기준으로 영화 뜨는걸 막을거냐
+//1-2. userParmas 에 값이 있는 경우 -> 기본으로 진행되던 오늘의 영화TOP 함수를 실행 하지 않는다
+let searchParams = new URLSearchParams(window.location.search).get("q"); //검색결과를 받아오는 테스트 코드
+
+findIfNeed();
+
+async function findIfNeed() {
+  //검색 결과 쿼리가 있을때 즉시 검색
+  if (searchParams) {
+      console.log("검색어: "+searchParams);
+      
+      await findToMovieNameAll(searchParams).then((data)=>{
+        searchResults = data;
+        console.log("search.js 결과:"+searchResults);
+        postMovie(searchResults);
+      });
+  } else{
+    postMovie(dailyRanking);
+  }
+};
