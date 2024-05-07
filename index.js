@@ -127,3 +127,5 @@ function updatePageWithData(Day, Week) {
   displayWeekTop();
   ScrollMain();
 }
+
+// 메인페이지 검색기능 구현
