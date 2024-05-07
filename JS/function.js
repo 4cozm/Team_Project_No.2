@@ -86,39 +86,35 @@ async function searchMovieByName(movieName) {
   let overView = "줄거리 없음";
   let movieData;
   try {
-      await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(SpacedMovieNm)}&language=ko`
-    ).then((response)=>response.json()).then((data)=>{movieData=data});
-      posterUrl = "https://image.tmdb.org/t/p/w500/" + movieData.results[0].poster_path;
-      voteAverage = movieData.results[0].vote_average;
-      overView = movieData.results[0].overview;
-
+    await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
+        SpacedMovieNm
+      )}&language=ko`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        movieData = data;
+      });
+    posterUrl =
+      "https://image.tmdb.org/t/p/w500/" + movieData.results[0].poster_path;
+    if (movieData.results[0].poster_path == null) {
+      console.log(
+        SpacedMovieNm +
+          "의 이미지가 없습니다 값 = " +
+          movieData.results[0].poster_path
+      );
+      posterUrl = await altSearchPoster(SpacedMovieNm);
+    }
+    voteAverage = movieData.results[0].vote_average;
+    overView = movieData.results[0].overview;
   } catch (error) {
     console.error("영화 검색 중 오류 발생:", error);
-  }
-
-  if (movieData.results[0].poster_path || movieData.results[0].poster_path==null) {
-    console.log(SpacedMovieNm + "의 이미지 정보가 없습니다.");
-    const altPoster = await altSearchPoster(SpacedMovieNm);
-    posterUrl = altPoster;
-  }
-
-  if (voteAverage === 0) {
-    console.log(SpacedMovieNm + "의 평점을 가져오지 못했습니다.");
-  }
-
-
-  if (overView === "줄거리 없음") {
-    console.log(SpacedMovieNm + "의 줄거리를 찾을 수 없습니다.");
   }
 
   return { posterUrl, voteAverage, overView };
 }
 
-
- 
 export async function addPosterToTopRanking(range) {
-
   //function.js 외부에서 영화진흥원의 정보를 받기 위한 API
 
   let rawArray; //데이터를 합치기 전의 배열
@@ -158,7 +154,7 @@ async function altSearchPoster(movieName) {
     "&cx=" +
     searchEngineID +
     "&q=" +
-    encodeURIComponent(movieName) +
+    encodeURIComponent(movieName + "영화 나무위키") +
     "&searchType=image" +
     "&num=1";
   return fetch(requestUrl)
@@ -183,7 +179,7 @@ async function altSearchPoster(movieName) {
 //영화이름을 기반으로 영화진흥위원회에서 값을 찾음, 이후 포스터 이미지,줄거리,평점을 TMDB로 부터 요청함
 
 export async function findToMovieName(movieName) {
-  console.log("영화 이름 검색 시작:"+movieName);
+  console.log("영화 이름 검색 시작:" + movieName);
   const fetch_url = `http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${kobisApiKey}&movieNm=${encodeURIComponent(
     movieName
   )}`;
@@ -203,16 +199,14 @@ export async function findToMovieName(movieName) {
     });
 }
 
-
-
-function addSpace(str) { //시리즈물 번호 사이를 띄워주는 함수
+function addSpace(str) {
+  //시리즈물 번호 사이를 띄워주는 함수
   //TMDB의 영화이름 검색은 시리즈물에 포함된 시리즈 번호 앞에 띄워쓰기가 없으면 검색이 안된다..... 쿵푸팬더4=X / 쿵푸팬더 4=O
   if (str.length > 0) {
-      const lastChar = str.charAt(str.length - 1);
-      if (!isNaN(parseInt(lastChar))) {
-          return str.slice(0, -1) + ' ' + lastChar;
-      }
+    const lastChar = str.charAt(str.length - 1);
+    if (!isNaN(parseInt(lastChar))) {
+      return str.slice(0, -1) + " " + lastChar;
+    }
   }
   return str;
 }
-
