@@ -27,7 +27,7 @@ import { movieList } from "./movieList.js";
 test();
 
 let dailyRanking;
-let dailyRankingList = [];
+let dailyRankingList = []; //현재 로딩된 모든 요소들을 가지고 있음 ->나중에 sort by 구현시 사용
 await addPosterToTopRanking("day").then((data) => {
   dailyRanking = data;
   dailyRankingList.push(data);
@@ -84,6 +84,7 @@ window.onscroll = function () {
           .then(results => {
             // 결과를 nextPage 배열에 추가합니다.
             nextPage = results;
+            dailyRankingList.push(results); //현재 로드된 배열정보에 새로운 요소들을 추가함
           })
           .catch(error => {
             console.error(error);
