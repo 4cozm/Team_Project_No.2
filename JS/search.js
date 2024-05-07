@@ -37,8 +37,6 @@ function enterkey() {
 }
 
 
-
-
 let dailyRanking;
 await addPosterToTopRanking("day").then((data) => {
   dailyRanking = data;
