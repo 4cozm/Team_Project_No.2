@@ -2,13 +2,14 @@ import { test, addPosterToTopRanking, findToMovieNameAll} from "./function.js";
 
 // 검색버튼 눌러서 영화 포스터 제목 검색하기
 // #btn_submit 버튼을 클릭하면 입력받은 데이터를 가져온다
-const search = function (){
+starter();
+function starter(){
   let search = document.querySelector("#btn_submit");
-
   search.addEventListener("click", (event) => {
     event.preventDefault();
     const input = document.querySelector(".form-control").value; 
-    process(input, dailyRanking); 
+    let searchURL = "../HTML/search.html?q="+input;
+    location.href = searchURL;
   })
 }
 
@@ -18,6 +19,7 @@ function enterkey() {
     search();
   }
 }
+
 
 //로고를 눌렀을때 메인페이지로 이동하는 버튼구현
 let home = document.querySelector(".logo");
