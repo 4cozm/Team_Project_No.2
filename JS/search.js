@@ -79,7 +79,6 @@ window.onscroll = function () {
       if (currentScroll + windowHeight >= totalHeight) {
         roading = true;
         cat.style.display = "block"; //고양이 나옴
-        console.log("로딩중: " + referIndex + "페이지");
         const newMovieNm = movieList(referIndex);
         let nextPage = [];
 
@@ -121,7 +120,6 @@ async function findIfNeed() {
       await findToMovieNameAll(searchParams).then((data) => {
         searchResults = data;
         RankingList.push(data);
-        console.log("search.js 결과:" + searchResults);
         postMovie(searchResults);
       });
     }
