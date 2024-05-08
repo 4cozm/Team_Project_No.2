@@ -7,6 +7,17 @@ test();
 let dailyRanking = []; //오늘의 영화 TOP 10
 let weekRanking = []; //이번주 영화 TOP 10
 
+// 검색버튼 클릭시 수행 : 검색페이지로 파라미터값 추가하여 전달
+let searchButton = document.querySelector("#btn_submit");
+searchButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  let target = document.querySelector(".inputSearch").value;
+  // 경로 : ./HTML폴더/html파일?파라미터=value
+  let searchURL = "./HTML/search.html?q=" + target;
+  location.href = searchURL;
+});
+
+
 function mainMovie(num) {
   //메인페이지 상단 부분
   let imagePoster = document.createElement("img");
@@ -52,9 +63,10 @@ function displayTodayTop() {
   let todayMovieBox = document.querySelector(".todayMovie");
   dailyRanking.forEach((index) => {
     let today = document.createElement("div");
-    today.classList.add(".todayMoviePoster");
+    today.classList.add("todayMoviePosterBox");
     today.innerHTML = `
         <img class="todayMoviePoster" src="${index.TMDB.posterUrl}">
+        <p class="vote"><i class='bx bxs-star'></i>${index.TMDB.voteAverage.toFixed(1)}</p>
         <div class="todayMovieTitle">${index.movieNm}</div> `;
     todayMovieBox.appendChild(today);
     today.addEventListener("click", () => {
@@ -64,9 +76,13 @@ function displayTodayTop() {
   });
 }
 
-let move = document.querySelector(".todayMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
-move.addEventListener("click", () => {
-  window.location.href = "./HTML/search.html";
+let moveDayTop = document.querySelector(".todayMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
+moveDayTop.addEventListener("click", () => {
+  window.location.href = "./HTML/search.html?q=오늘의영화";
+});
+let moveWeekTop = document.querySelector(".weekMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
+moveWeekTop.addEventListener("click", () => {
+  window.location.href = "./HTML/search.html?q=이번주영화";
 });
 
 function displayWeekTop() {
@@ -74,9 +90,10 @@ function displayWeekTop() {
   let weekMovieBox = document.querySelector(".weekMovie");
   weekRanking.forEach((index) => {
     let week = document.createElement("div");
-    week.classList.add(".weekMoviePoster");
+    week.classList.add("weekMoviePosterBox");
     week.innerHTML = `
         <img class="weekMoviePoster" src=${index.TMDB.posterUrl}>
+        <p class="vote"><i class='bx bxs-star'></i>${index.TMDB.voteAverage.toFixed(1)}</p>
         <div class="weekMovieTitle">${index.movieNm}</div>
         `;
     weekMovieBox.appendChild(week);
@@ -88,7 +105,6 @@ function displayWeekTop() {
 }
 
 function fetchData() {
-
   //캐싱 구현 함수 @@캐시 만료시간 추가해야함 github issue 확인@@
 
   // 로컬 스토리지에서 데이터 가져오기
@@ -142,3 +158,4 @@ searchButton.addEventListener("click", (event) => {
 
   location.href = searchURL;
 });
+
