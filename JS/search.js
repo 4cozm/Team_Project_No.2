@@ -4,7 +4,7 @@ import {
   findToMovieName,
   findToMovieNameAll,
 } from "./function.js";
-import { movieList } from "./movieList.js";
+import { movieList, weekmovieList } from "./movieList.js";
 
 starter();
 function starter() {
@@ -46,6 +46,9 @@ function postMovie(movieArray) {
     makeMoviePoster.innerHTML = `
         <div class="card h-100">
           <img src='${index.TMDB.posterUrl}' class="card-img-top" alt="..." />
+          <p class="vote"><i class='bx bxs-star'></i>${index.TMDB.voteAverage.toFixed(
+            1
+          )}</p>
           <h5 class="card-title">${index.movieNm}</h5>
           <div class="card-footer">
             <small class="text-body-secondary">${index.TMDB.overView}</small>
@@ -78,8 +81,15 @@ window.onscroll = function () {
       if (currentScroll + windowHeight >= totalHeight) {
         roading = true;
         cat.style.display = "block"; //고양이 나옴
-        console.log("로딩중: " + referIndex + "페이지");
-        const newMovieNm = movieList(referIndex);
+        let newMovieNm;
+        if (searchParams == "이번주영화") {
+          newMovieNm = weekmovieList(referIndex);
+          console.log("이번주영화 리스트"+newMovieNm);
+        } else {
+          newMovieNm = movieList(referIndex);
+          console.log("오늘의영화 리스트"+newMovieNm);
+        }
+
         let nextPage = [];
 
         // 각각의 비동기 호출을 병렬로 처리
@@ -107,6 +117,8 @@ window.onscroll = function () {
 };
 
 let searchParams = new URLSearchParams(window.location.search).get("q"); //검색결과를 받아오는 테스트 코드
+let showQuery = document.querySelector(".showQuery");
+showQuery.textContent = searchParams;
 findIfNeed();
 async function findIfNeed() {
   //검색 결과 쿼리가 있을때 즉시 검색
@@ -120,7 +132,6 @@ async function findIfNeed() {
       await findToMovieNameAll(searchParams).then((data) => {
         searchResults = data;
         RankingList.push(data);
-        console.log("search.js 결과:" + searchResults);
         postMovie(searchResults);
       });
     }
@@ -164,12 +175,16 @@ function doSort(kind) {
     postMovie(flatRanking);
   } else if (kind == "Recommend") {
     console.log("평점순 정렬");
-    flatRanking.sort((a,b)=>{
-      a.TMDB.vote_average-b.TMDB.vote_average;
-    })
+    flatRanking.sort((a, b) => {
+      let ratingA = parseFloat(a.TMDB.voteAverage.toFixed(1));
+      let ratingB = parseFloat(b.TMDB.voteAverage.toFixed(1));
+
+      return ratingB - ratingA;
+    });
     moiveBox.innerHTML = "";
     postMovie(flatRanking);
   } else {
     console.log("알 수 없는 값");
   }
 }
+//정렬관련 함수 끝 --------------------------------------------------------

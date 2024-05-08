@@ -115,17 +115,13 @@ async function searchMovieByName(movieName) {
     posterUrl =
       "https://image.tmdb.org/t/p/w500/" + movieData.results[0].poster_path;
     if (movieData.results[0].poster_path == null) {
-      console.log(
-        SpacedMovieNm +
-          "의 이미지가 없습니다 값 = " +
-          movieData.results[0].poster_path
-      );
       posterUrl = await altSearchPoster(SpacedMovieNm);
     }
     voteAverage = movieData.results[0].vote_average;
     overView = movieData.results[0].overview;
   } catch (error) {
     console.error("영화 검색 중 오류 발생:", error);
+    posterUrl = await altSearchPoster(SpacedMovieNm);
   }
 
   return { posterUrl, voteAverage, overView };
@@ -183,8 +179,7 @@ async function altSearchPoster(movieName) {
     })
     .then((data) => {
       // 이미지 검색 결과를 처리하는 코드
-      console.log("대체검색 실시 영화명:" + movieName);
-      console.log("대체생성 이미지 URL:" + data.items[0].link);
+      console.log("TMDB 포스터 확인 불가 ! 대체검색 실시 영화명:" + movieName);
       return data.items[0].link; // 이미지 검색 결과가 포함된 항목(items)을 출력
     })
     .catch((error) => {
@@ -195,7 +190,6 @@ async function altSearchPoster(movieName) {
 
 //영화이름을 기반으로 영화진흥위원회에서 맨 처음 값을 찾음, 이후 포스터 이미지,줄거리,평점을 TMDB로 부터 요청함
 export async function findToMovieName(movieName) {
-  console.log("영화 이름 검색 시작:" + movieName);
   const fetch_url = `http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${kobisApiKey}&movieNm=${encodeURIComponent(
     movieName
   )}`;
@@ -208,7 +202,6 @@ export async function findToMovieName(movieName) {
     })
     .then((data) => {
       let result = data.movieListResult.movieList[0];
-      console.log(result);
       return searchMovieByName(result.movieNm).then((data) => {
         result.TMDB = data;
         return result;
@@ -230,7 +223,6 @@ export async function findToMovieNameAll(movieName) {
     })
     .then(async (data) => {
       let results = data.movieListResult.movieList;
-      console.log(data);
       for (let index of results) {
         const tmdbData = await searchMovieByName(index.movieNm);
         index.TMDB = tmdbData;

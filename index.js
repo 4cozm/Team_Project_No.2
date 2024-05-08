@@ -61,9 +61,10 @@ function displayTodayTop() {
   let todayMovieBox = document.querySelector(".todayMovie");
   dailyRanking.forEach((index) => {
     let today = document.createElement("div");
-    today.classList.add(".todayMoviePoster");
+    today.classList.add("todayMoviePosterBox");
     today.innerHTML = `
         <img class="todayMoviePoster" src="${index.TMDB.posterUrl}">
+        <p class="vote"><i class='bx bxs-star'></i>${index.TMDB.voteAverage.toFixed(1)}</p>
         <div class="todayMovieTitle">${index.movieNm}</div> `;
     todayMovieBox.appendChild(today);
     today.addEventListener("click", () => {
@@ -87,9 +88,10 @@ function displayWeekTop() {
   let weekMovieBox = document.querySelector(".weekMovie");
   weekRanking.forEach((index) => {
     let week = document.createElement("div");
-    week.classList.add(".weekMoviePoster");
+    week.classList.add("weekMoviePosterBox");
     week.innerHTML = `
         <img class="weekMoviePoster" src=${index.TMDB.posterUrl}>
+        <p class="vote"><i class='bx bxs-star'></i>${index.TMDB.voteAverage.toFixed(1)}</p>
         <div class="weekMovieTitle">${index.movieNm}</div>
         `;
     weekMovieBox.appendChild(week);
