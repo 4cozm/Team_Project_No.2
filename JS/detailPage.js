@@ -274,7 +274,6 @@ window.onload = function () {
   if (Recv_DATAS.length !== 0) {
     setReviewCard(Recv_DATAS);
     console.log("데이터 불러옴");
-    //데이터가 존재하면 삭제 수정버튼을 각각 등록한다
   } else {
     console.log("데이터를 찾지 못했습니다");
   }
