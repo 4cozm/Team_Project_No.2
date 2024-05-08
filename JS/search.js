@@ -17,12 +17,7 @@ function starter() {
   });
 }
 
-//enter 키 눌러서 검색하기 버튼 활성화하기
-function enterkey() {
-  if (window.event.keyCode == 13) {
-    search();
-  }
-}
+
 
 //로고를 눌렀을때 메인페이지로 이동하는 버튼구현
 let home = document.querySelector(".logo");
@@ -38,10 +33,6 @@ home.addEventListener("click", () => {
 3. 화면배치 함수를 구현
 4. 그 함수가 배열정보를 받으면 자동으로 화면에 요소들을 배치하도록 한다
  */
-
-import { test, addPosterToTopRanking } from "./function.js";
-
-test();
 
 
 // 검색버튼 눌러서 영화 포스터 제목 검색하기
