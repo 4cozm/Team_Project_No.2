@@ -139,7 +139,9 @@ function saveData(Recv) {
   const movieName = searchParams;
   const today = new Date();
   const date =
-    today.getFullYear() + "-" + today.getMonth() + "-" + today.getDay();
+    today.getFullYear() + "-" + 
+    ((today.getMonth()+1) < 10 ? '0'+(today.getMonth()+1) : (today.getMonth()+1) ) + "-" + 
+    (today.getDate() < 10 ? '0'+(today.getDate()) : (today.getDate()) );
 
   let send = {};
   send.Name = Recv.Name;
@@ -150,6 +152,7 @@ function saveData(Recv) {
 
   let saved = [];
   saved = JSON.parse(localStorage.getItem(movieName)) || [];
+  // 비어있을 경우 저장 후 종료
   if (!saved) {
     localStorage.setItem(movieName, JSON.stringify(send));
     return;
@@ -221,19 +224,21 @@ function setReviewCard(DATAS) {
     <div class="underReview">
       <div id="card_top">
         <p class="R_nickname">${data["Name"]}</p>
-        <p class="R_score">${data["Rating"]}</p>
+        <p class="R_score">${stars}</p>
         <p class="R_comment">${data["Point"]}</p>
       </div>
       <br />
       <div id="card_bottom">
-        <div class="col align-self-start">
+        <div class="col-7 align-self-center">
           <p class="R_date">${data["Date"]}</p>
         </div>
         <div class="col align-self-end">
-          <button type="button" class="updateButton btn btn-primary" value="${count}" data-bs-toggle="modal" data-bs-target="#updateModal">수정</button>
+          <button type="button" class="updateButton btn btn-primary" 
+            value="${count}" data-bs-toggle="modal" data-bs-target="#updateModal">수정</button>
         </div>
         <div class="col align-self-end">
-          <button type="button" class="deleteButton btn btn-danger" value="${count}" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button>
+          <button type="button" class="deleteButton btn btn-danger" 
+            value="${count}" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button>
         </div>
       </div>
     </div>
@@ -249,23 +254,165 @@ function setReviewCard(DATAS) {
 
 
 //삭제 수정버튼의 이벤트를 등록해주는 함수 맨 아래 window.onload에서 작동함
+const updateBox = document.querySelector(".updateBox");
+const deleteBox = document.querySelector(".deleteBox");
 function bindButton() {
   let upBtn = document.querySelectorAll(".updateButton");
   let delBtn = document.querySelectorAll(".deleteButton");
+
   upBtn.forEach((index) => {
     index.addEventListener("click", (event) => {
       const value = event.target.value;
       console.log("수정버튼눌림" + value);
+      
+      greyScreen.style.display = "block";
+      updateBox.style.display = "block";
+
+      let tarBtn = document.querySelector('#confirmUpdate');
+      tarBtn.setAttribute("value", value);
     });
   });
   delBtn.forEach((index) => {
     index.addEventListener("click", (event) => {
       const value = event.target.value;
       console.log("삭제버튼 눌림" + value);
+      
+      greyScreen.style.display = "block";
+      deleteBox.style.display = "block";
+
+      let tarBtn = document.querySelector('#confirmDelete');
+      tarBtn.setAttribute("value", value);
     });
   });
 }
 
+// localStorage 수정(Update) & 삭제(Delete) 기능
+// localStorage 데이터의 비밀번호와 입력한 비밀번호를 비교하여
+// 일치하면 작업을 실행, 일치하지 않으면 미실행
+
+// 수정기능
+function updateData(index) {
+  // 로드된 localStorage 준비
+  console.log(Recv_DATAS[index]);
+  let PW = Recv_DATAS[index].password;
+  console.log(PW);
+
+  // 입력창 데이터 로드
+  let inputName = document.querySelector('#inputName').value;
+  let inputRating = document.querySelector('#ScoreInput').value;
+  let inputComment = document.querySelector('#inputComment').value;
+  let input_PW = document.querySelector('#input_PW').value;
+  console.log(input_PW);
+
+  // 비밀번호 일치시 수정작업 + 새로고침 실행
+  if(PW == input_PW) {
+    // 해당 객체(리뷰) 수정
+    Recv_DATAS[index].Name = inputName;
+    Recv_DATAS[index].Rating = inputRating;
+    Recv_DATAS[index].Point = inputComment;
+
+    // 수정된 리뷰데이터 저장(덮어쓰기)
+    localStorage.setItem(searchParams, JSON.stringify(Recv_DATAS));
+    alert("수정 완료.");
+    
+    // 새로고침 실행
+    location.reload();
+  } 
+  else {    // 일치하지 않을경우 수행안함
+    alert("비밀번호가 일치하지 않습니다.");
+  }
+
+}
+// 삭제 기능
+function deleteData(index) {
+  console.log(Recv_DATAS[index]);
+  let PW = Recv_DATAS[index].password;
+
+  let inputPW = document.querySelector('#inputPW').value;
+
+  // 비밀번호 일치시 삭제작업 + 새고로침 실행
+  if(PW == inputPW) {
+    Recv_DATAS.splice(index, 1);
+    localStorage.setItem(searchParams, JSON.stringify(Recv_DATAS));
+
+    console.log(Recv_DATAS);
+    alert("삭제 완료.");
+    
+    // 새로고침 실행
+    location.reload();
+  } 
+  else {    // 일치하지 않을경우 수행안함
+    alert("비밀번호가 일치하지 않습니다.");
+  }
+
+}
+
+// HTML 요소의 Class or ID 필요!
+// 수정확인 버튼 요소
+let confirmUpdate = document.querySelector('#confirmUpdate');
+// 삭제확인 버튼 요소
+let confirmDelete = document.querySelector('#confirmDelete');
+
+// 수정확인 클릭 이벤트
+confirmUpdate.addEventListener("click", (event) => {
+  // index값 로드
+  let index = event.target.value;
+  
+  // 수정작업 수행
+  updateData(index);
+});
+// 수정확인 클릭 이벤트
+confirmDelete.addEventListener("click", (event) => {
+  // index값 로드
+  let index = event.target.value;
+  
+  // 수정작업 수행
+  deleteData(index);
+});
+
+
+const val = document.querySelector("#ScorePrint");
+const inp = document.querySelector("#ScoreInput");
+inp.addEventListener("input", (event) => {
+  //별추가하는 이벤트
+  const rating = parseFloat(event.target.value);
+  const filledStars = Math.floor(rating);
+  const remainingStars = 10 - filledStars;
+
+  let starsHTML = "";
+
+  // 별 채우기
+  for (let i = 0; i < filledStars; i++) {
+    starsHTML += "★";
+  }
+
+  // 빈별 추가
+  for (let i = 0; i < remainingStars; i++) {
+    starsHTML += "☆";
+  }
+
+  // X점 출력
+  const ratingText = `${filledStars}점`;
+
+  val.innerHTML = `${starsHTML} ${ratingText}`;
+});
+
+const greyScreen = document.querySelector(".greyScreen");
+greyScreen.addEventListener("click", (event) => {
+  if (event.target.className == 'greyScreen') {
+  greyScreen.style.display = "none";
+  updateBox.style.display = "none";
+  deleteBox.style.display = "none";
+  }
+});
+const btnCancel = document.querySelectorAll(".btnCancel");
+btnCancel.forEach((index)=>{
+  index.addEventListener("click",()=>{
+    greyScreen.style.display="none";
+    updateBox.style.display = "none";
+    deleteBox.style.display = "none";
+  })
+})
 
 let Recv_DATAS = [];
 // 페이지 로드시 수행
@@ -279,67 +426,3 @@ window.onload = function () {
   }
   //
 };
-window.onload = async function () {
-  Recv_DATAS = await getData(searchParams);
-  console.log(Recv_DATAS);
-
-  // 데이터 준비 후 카드 생성
-  await setReviewCard(Recv_DATAS);
-  
-  // 카드의 수정/삭제 버튼 요소준비
-  let updateBtn = document.getElementById('updateButton');
-  let deleteBtn = document.getElementById('deleteButton');
-  console.log(updateBtn);
-  console.log(deleteBtn);
-
-  let updateModal = document.getElementById('updateModal');
-  let deleteModal = document.getElementById('deleteModal');
-  console.log(updateModal);
-  console.log(deleteModal);
-
-  // 수정/삭제 실행시 사용 함수정의
-  function setUpdtModal(idx) {
-    console.log("카드의 수정버튼 클릭됨.");
-    
-    // 수정모달에 idx값 설정
-    let targetButton = document.getElementById('updateConfirm');
-    targetButton.setAttribute("value", idx);
-
-    // 수정모달 팝업
-    showModal(updateModal);
-  }
-
-  function setDelModal(idx) {
-    console.log("카드의 삭제버튼 클릭됨.");
-
-    // 삭제모달에 idx값 설정
-    let targetButton = document.getElementById('deleteConfirm');
-    targetButton.setAttribute("value", idx);
-
-    // 삭제모달 팝업
-    showModal(deleteModal);
-  } 
-
-  function showModal(targetModal) {
-    console.log(targetModal);
-    target.style.display = "show";
-  }
-  function toggleModal(targetModal) {
-    console.log(targetModal);
-    targetModal.classList.toggle('show');
-  }
-
-  // 수정버튼 클릭시 이벤트
-  await updateBtn.addEventListener("click", async (event) => {
-    let idx = event.target.value;
-    await setUpdtModal(idx);
-  });
-  // 삭제버튼 클릭시 이벤트
-  await deleteBtn.addEventListener("click", async (event) => {
-    let idx = event.target.value;
-    await setDelModal(idx);
-  });
-
-  
-
-}
