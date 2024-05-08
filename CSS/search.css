@@ -1,25 +1,30 @@
 @import "./colors.css";
-body {
-  position: relative;
+body{
+    position: relative;
+    padding-top: 70px;
 }
-.navbar-brand {
-  background-color: var(--pinkLight);
-  width: 10%;
-  height: 80%;
-}
-.logo {
-  cursor: pointer;
-}
-.container-fluid {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-bottom: 2px solid var(--pinkDark);
-
-  width: 100%;
-  height: 60px;
-}
-
+#navbar {
+    z-index: 10;
+    position: fixed;
+    top:0px;
+    width: 100vw;
+    border-bottom: 1px solid var( --pinkLight);
+  }
+  .navbar-brand{
+    background-color:var( --pinkLight);
+    
+    width: 10%;
+    height: 80%;
+  }
+  #btn_submit{
+    background-color: var(--inputBox);
+    color:var(--pinkDark);
+  }
+  /*01_네비게이션 배경색*/
+  .bg-light {
+    background-color: var(--backGround) !important;
+  }
+  
 .button {
   display: flex;
   flex-direction: column;
@@ -30,6 +35,7 @@ body {
 }
 .showQuery{
     position: absolute;
+    top:100px;
     left: 50px;
     color: white;
     font-size: 3vw;
