@@ -1,4 +1,4 @@
-import { addPosterToTopRanking, findToMovieName } from "../JS/function.js";
+import { addPosterToTopRanking, findToMovieName ,youtubeLink} from "../JS/function.js";
 
 const value = document.querySelector("#movieScorePrint");
 const input = document.querySelector("#movieScoreInput");
@@ -34,6 +34,7 @@ reviewButton.addEventListener("click", () => {
   reviewButton.style.backgroundColor = "#D96F66"; //colors.css의 --pinkDark색상으로 현재 버튼색 변경
   infoButton.style.backgroundColor = "white"; //다른버튼은 흰색으로
   document.querySelector(".underInfoForm").style.display = "none";
+  document.querySelector(".youtube").style.display="none";
   document.querySelector(".underReviewForm").style.display = "";
 });
 infoButton.addEventListener("click", () => {
@@ -42,6 +43,7 @@ infoButton.addEventListener("click", () => {
   reviewButton.style.backgroundColor = "white"; //다른버튼은 흰색으로
   document.querySelector(".underReviewForm").style.display = "none";
   document.querySelector(".underInfoForm").style.display = "";
+  document.querySelector(".youtube").style.display="";
 });
 
 let searchParams = new URLSearchParams(window.location.search).get("q"); //검색결과를 받아오는 테스트 코드
@@ -53,8 +55,12 @@ async function findIfNeed() {
   if (searchParams) {
     await findToMovieName(searchParams).then((data) => {
       movieData = data;
-      displayMovie(movieData);
     });
+    await youtubeLink(searchParams).then((data)=>{
+      let preview = document.querySelector(".youtube");
+      preview.setAttribute("src",data);
+      displayMovie(movieData);
+    })
   }
 }
 

@@ -39,8 +39,6 @@ await addPosterToTopRanking("day").then((data) => {
   dailyRankingList.push(data);
 });
 
-console.log(dailyRanking);
-
 function postMovie(movieArray) {
   //화면 출력 함수
   const moiveBox = document.querySelector(".moiveBox");
@@ -58,6 +56,10 @@ function postMovie(movieArray) {
         </div>
         `;
     moiveBox.appendChild(makeMoviePoster);
+    makeMoviePoster.addEventListener("click", () => {
+      window.location.href =
+        "./detailPage.html?q=" + encodeURIComponent(index.movieNm);
+    });
   });
 }
 
@@ -77,7 +79,7 @@ window.onscroll = function () {
 
       if (currentScroll + windowHeight >= totalHeight) {
         roading = true;
-        cat.style.display = "block";
+        cat.style.display = "block"; //고양이 나옴
         console.log("로딩중: " + referIndex + "페이지");
         const newMovieNm = movieList(referIndex);
         let nextPage = [];
@@ -97,7 +99,7 @@ window.onscroll = function () {
           });
 
         // 병렬로 처리된 결과를 postMovie 함수에 전달
-        cat.style.display = "none"; //고양이 사라져
+        cat.style.display = "none"; //고양이 사라짐
         postMovie(nextPage);
         referIndex++;
         roading = false;
