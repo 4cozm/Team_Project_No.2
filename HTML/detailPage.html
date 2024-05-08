@@ -14,39 +14,48 @@
     <link rel="stylesheet" href="../CSS/deatilPage.css" />
   </head>
   <body>
-      <!--01_네비게이션-->
-  <nav id="navbar" class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <img class="home navbar-brand" src="../image/age/COFFEE_MOVIE.png"  ></a>
-      <form class="d-flex">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button id="btn_submit" class="btn btn-outline-success" type="submit">검색</button>
-      </form>
-    </div>
-  </nav>
+    <!--01_네비게이션-->
+    <nav id="navbar" class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <img class="home navbar-brand" src="../image/age/COFFEE_MOVIE.png" />
+        <form class="d-flex">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button id="btn_submit" class="btn btn-outline-success" type="submit">
+            검색
+          </button>
+        </form>
+      </div>
+    </nav>
 
-  <!--02_1 영화 포스터, 간단한 내용 보여주기-->
-  <div class = "movieContainer">
-  </div> 
-
+    <!--02_1 영화 포스터, 간단한 내용 보여주기-->
+    <div class="movieContainer"></div>
 
     <div class="underContainer">
       <!--아랫쪽 컨테이너들의 가장 외부 부모요소-->
       <div class="underButtonContainer">
         <!--주요정보,평점리뷰 이동버튼-->
-        <span class="underButtonInfo">줄거리</span>
+        <span class="underButtonInfo">주요내용</span>
         <span class="underButtonReview">평점리뷰</span>
       </div>
       <div class="underBody">
         <!--주요정보 탭, 평점 리뷰 탭 -->
+        <iframe
+        class="youtube"
+        style="display: none;"
+          src=""
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
         <div class="underInfoForm" style="display: none">
           <!--주요 정보 탭 내부-->
-
         </div>
         <form class="underReviewForm">
           <!--평점리뷰 탭 내부-->
@@ -87,7 +96,7 @@
               value="0"
               placeholder="평점"
             />
-            <span id="movieScorePrint">평점을 매겨주세요</span>
+            <p id="movieScorePrint">평점을 매겨주세요</p>
           </div>
           <div class="form-floating">
             <textarea
