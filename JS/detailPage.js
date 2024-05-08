@@ -1,4 +1,4 @@
-import { addPosterToTopRanking, findToMovieName ,youtubeLink} from "../JS/function.js";
+import { addPosterToTopRanking, findToMovieName, youtubeLink } from "../JS/function.js";
 
 const value = document.querySelector("#movieScorePrint");
 const input = document.querySelector("#movieScoreInput");
@@ -34,7 +34,7 @@ reviewButton.addEventListener("click", () => {
   reviewButton.style.backgroundColor = "#D96F66"; //colors.css의 --pinkDark색상으로 현재 버튼색 변경
   infoButton.style.backgroundColor = "white"; //다른버튼은 흰색으로
   document.querySelector(".underInfoForm").style.display = "none";
-  document.querySelector(".youtube").style.display="none";
+  document.querySelector(".youtube").style.display = "none";
   document.querySelector(".underReviewForm").style.display = "";
 });
 infoButton.addEventListener("click", () => {
@@ -43,7 +43,7 @@ infoButton.addEventListener("click", () => {
   reviewButton.style.backgroundColor = "white"; //다른버튼은 흰색으로
   document.querySelector(".underReviewForm").style.display = "none";
   document.querySelector(".underInfoForm").style.display = "";
-  document.querySelector(".youtube").style.display="";
+  document.querySelector(".youtube").style.display = "";
 });
 
 let searchParams = new URLSearchParams(window.location.search).get("q"); //검색결과를 받아오는 테스트 코드
@@ -57,9 +57,9 @@ async function findIfNeed() {
     await findToMovieName(searchParams).then((data) => {
       movieData = data;
     });
-    await youtubeLink(searchParams).then((data)=>{
+    await youtubeLink(searchParams).then((data) => {
       let preview = document.querySelector(".youtube");
-      preview.setAttribute("src",data);
+      preview.setAttribute("src", data);
       displayMovie(movieData);
     })
   }
@@ -170,20 +170,25 @@ function setReviewCard(DATAS) {
 
   let count = 0;
   DATAS.forEach((data) => {
+    let stars = '';
+    for (let i = 0; i < data['Rating']; i++) { stars += '★'; }
+
     let card_html = `
     <div class="underReview">
       <div id="card_top">
-        <p class="R_nickname">${data['Name']}</p>
-        <p class="R_score">${data['Rating']}</p>
-        <p class="R_comment">${data['Point']}</p>
+        <p class="R_nickname">Nickname: ${data['Name']}</p>
+        <p class="R_score">Rating: ${stars}</p>
+        <p class="R_comment">Comment: ${data['Point']}</p>
       </div>
       <br />
       <div id="card_bottom">
-        <div class="col align-self-start"><p class="R_date">${data['Date']}</p></div>
-        <div class="col align-self-end"><button type="button" class="btn btn-primary" id="updateButton" value="${count}" data-bs-toggle="modal" 
-        data-bs-target="#updateModal">수정</button></div>
-        <div class="col align-self-end"><button type="button" class="btn btn-danger" id="deleteButton" value="${count}" data-bs-toggle="modal" 
-        data-bs-target="#deleteModal">삭제</button></div>
+        <div class="col-6 align-self-center"><p class="R_date">${data['Date']}</p></div>
+        <div class="col align-self-end"><button type="button" class="btn btn-primary" 
+          id="updateButton" value="${count}" data-bs-toggle="modal" 
+          data-bs-target="#updateModal">수정</button></div>
+        <div class="col align-self-end"><button type="button" class="btn btn-danger" 
+          id="deleteButton" value="${count}" data-bs-toggle="modal" 
+          data-bs-target="#deleteModal">삭제</button></div>
       </div>
     </div>
     `;
@@ -212,92 +217,12 @@ function deleteReview(idx, input) {
   }
 }
 
-
-
-
-
-async function addEvent_UpdateDelete() {
-  // 수정/삭제 버튼 요소 준비
-  const updateBtn = document.getElementById('updateButton');
-  const deleteBtn = document.getElementById('deleteButton');
-  console.log(updateBtn);
-  console.log(deleteBtn);
-
-
-  /*
-  // 수정모달 생성&팝업 이벤트
-  updateBtn.addEventListener("click", () => {
-    let update_html = `
-    <div class="modal-dialog modal-dialog-centered">
-      <div>
-
-      </div>
-    </div>
-    `;
-  });
-  */
-
-  let modal_html;
-
-  
-
-  function createDelModal() {
-    //event.preventDefault();
-    let idx = deleteBtn.getAttribute("value");
-    console.log("카드의 삭제버튼 클릭됨.");
-
-    modal_html = `
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">삭제 확인</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-    <div class="modal-body">
-      <p>정말로 삭제하시겠습니까?</p>
-    </div>
-    <div class="modal-footer">
-      <div class="form-floating">
-        <input type="password" class="form-control" id="modalPW" placeholder="Password" />
-        <label for="floatingPassword">비밀번호 확인</label>
-      </div>
-      <button type="button" class="btn btn-danger" id="deleteConfirm" value="${idx}">삭제확인</button>
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-    </div>
-    </div>
-    </div>
-  </div>
-  `;
-
-    let delModalPlace = document.getElementById('updateModal');
-    delModalPlace.innerHTML = '';
-
-    delModalPlace.insertAdjacentHTML("afterbegin", modal_html);
-    console.log(delModalPlace);
-  }
-
-  function showModal(target) {
-    
-  }
-
-  // 삭제모달 생성 이벤트
-  deleteBtn.addEventListener("click", () => {
-    createDelModal();
-
-
-  });
-
-}
-
 /*
 let modalPlace = document.querySelector('#deleteModal');
 modalPlace.appendChild(modal_html);
 
 newModal.style.display = 'block';
 */
-
-
 
 
 let Recv_DATAS;
@@ -308,6 +233,61 @@ window.onload = async function () {
 
   // 데이터 준비 후 카드 생성
   await setReviewCard(Recv_DATAS);
+  
+  // 카드의 수정/삭제 버튼 요소준비
+  let updateBtn = document.getElementById('updateButton');
+  let deleteBtn = document.getElementById('deleteButton');
+  console.log(updateBtn);
+  console.log(deleteBtn);
 
-  await addEvent_UpdateDelete();
+  let updateModal = document.getElementById('updateModal');
+  let deleteModal = document.getElementById('deleteModal');
+  console.log(updateModal);
+  console.log(deleteModal);
+
+  // 수정/삭제 실행시 사용 함수정의
+  function setUpdtModal(idx) {
+    console.log("카드의 수정버튼 클릭됨.");
+    
+    // 수정모달에 idx값 설정
+    let targetButton = document.getElementById('updateConfirm');
+    targetButton.setAttribute("value", idx);
+
+    // 수정모달 팝업
+    showModal(updateModal);
+  }
+
+  function setDelModal(idx) {
+    console.log("카드의 삭제버튼 클릭됨.");
+
+    // 삭제모달에 idx값 설정
+    let targetButton = document.getElementById('deleteConfirm');
+    targetButton.setAttribute("value", idx);
+
+    // 삭제모달 팝업
+    showModal(deleteModal);
+  } 
+
+  function showModal(targetModal) {
+    console.log(targetModal);
+    target.style.display = "show";
+  }
+  function toggleModal(targetModal) {
+    console.log(targetModal);
+    targetModal.classList.toggle('show');
+  }
+
+  // 수정버튼 클릭시 이벤트
+  await updateBtn.addEventListener("click", async (event) => {
+    let idx = event.target.value;
+    await setUpdtModal(idx);
+  });
+  // 삭제버튼 클릭시 이벤트
+  await deleteBtn.addEventListener("click", async (event) => {
+    let idx = event.target.value;
+    await setDelModal(idx);
+  });
+
+  
+
 }

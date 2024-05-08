@@ -340,11 +340,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: left;
-  justify-content: center;
+  justify-content: left;
+
+  height: 80%;
 }
 #card_bottom {
   display: flex;
   flex-direction: row;
-  align-items: right;
+  align-items: center;
   justify-content: center;
+
+  height: 10%;
+  margin-left: 10px;
 }

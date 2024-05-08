@@ -141,7 +141,7 @@
                   <label for="updateModalPassword">비밀번호</label>
                 </div>
                 <button type="button" class="btn btn-danger" id="updateConfirm"
-                  value="${value.target.getAttribute('data-value')}">수정확인</button>
+                  value="">수정확인</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
               </div>
             </div>
@@ -162,7 +162,8 @@
                 <p>정말 삭제 하시겠습니까?</p>
                 <div class="modal-footer">
                   <div class="form-floating">
-                    <input type="password" class="form-control" id="deleteModalPassword" placeholder="비밀번호 확인" />
+                    <input type="password" class="form-control" 
+                      id="deleteModalPassword" placeholder="비밀번호 확인" />
                     <label for="deleteModalPassword">비밀번호</label>
                   </div>
                   <button type="button" class="btn btn-danger" id="deleteConfirm"
