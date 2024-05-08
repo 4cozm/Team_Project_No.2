@@ -166,7 +166,10 @@ function doSort(kind) {
   } else if (kind == "Recommend") {
     console.log("평점순 정렬");
     flatRanking.sort((a,b)=>{
-      a.TMDB.vote_average-b.TMDB.vote_average;
+      let ratingA = parseFloat(a.TMDB.voteAverage.toFixed(1));
+      let ratingB = parseFloat(b.TMDB.voteAverage.toFixed(1));
+  
+      return ratingB - ratingA;
     })
     moiveBox.innerHTML = "";
     postMovie(flatRanking);
