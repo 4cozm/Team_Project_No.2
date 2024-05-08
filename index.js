@@ -75,7 +75,7 @@ function displayTodayTop() {
 
 let move = document.querySelector(".todayMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
 move.addEventListener("click", () => {
-  window.location.href = "./HTML/search.html";
+  window.location.href = "./HTML/search.html?q=오늘의영화";
 });
 
 function displayWeekTop() {
@@ -98,7 +98,8 @@ function displayWeekTop() {
 
 let move2 = document.querySelector(".weekMovieBtn"); //이번주의 영화 TOP 옆에 전체보기 버튼 구현
 move2.addEventListener("click", () => {
-  window.location.href = "./HTML/search.html";
+  
+  window.location.href = "./HTML/search.html?q=이번주영화";
 });
 
 

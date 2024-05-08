@@ -17,13 +17,31 @@ function starter() {
   });
 }
 
-
+//enter 키 눌러서 검색하기 버튼 활성화하기
+function enterkey() {
+  if (window.event.keyCode == 13) {
+    search();
+  }
+}
 
 //로고를 눌렀을때 메인페이지로 이동하는 버튼구현
 let home = document.querySelector(".logo");
 home.addEventListener("click", () => {
   window.location.href = "../index.html";
 });
+
+test();
+let searchResults;
+let Ranking;
+let RankingList = []; //현재 로딩된 모든 요소들을 가지고 있음 ->나중에 sort by 구현시 사용
+async function load (dayOrWeek) {
+await addPosterToTopRanking(dayOrWeek).then((data) => {
+  Ranking = data;
+  postMovie(Ranking);
+  RankingList.push(data);
+  search();
+});
+}
 
 /*전체보기 페이지 Js구현 
 
@@ -34,9 +52,9 @@ home.addEventListener("click", () => {
 4. 그 함수가 배열정보를 받으면 자동으로 화면에 요소들을 배치하도록 한다
  */
 
-
 // 검색버튼 눌러서 영화 포스터 제목 검색하기
 // #btn_submit 버튼을 클릭하면 입력받은 데이터를 가져온다
+
 const search = function (){
   let search = document.querySelector("#btn_submit");
 
@@ -47,23 +65,14 @@ const search = function (){
   })
 }
 
-//enter 키 눌러서 검색하기 버튼 활성화하기
-function enterkey() {
-  if (window.event.keyCode == 13) {
-    search();
-  }
-}
-
-let searchResults;
 let dailyRanking;
-let dailyRankingList = []; //현재 로딩된 모든 요소들을 가지고 있음 ->나중에 sort by 구현시 사용
 await addPosterToTopRanking("day").then((data) => {
   dailyRanking = data;
-  dailyRankingList.push(data);
   search();
 });
 
 console.log(dailyRanking);
+
 
 function postMovie(movieArray) {
   //화면 출력 함수
@@ -82,10 +91,12 @@ function postMovie(movieArray) {
         </div>
         `;
     moiveBox.appendChild(makeMoviePoster);
+    makeMoviePoster.addEventListener("click", () => {
+      window.location.href =
+        "./detailPage.html?q=" + encodeURIComponent(index.movieNm);
+    });
   });
 }
-
-postMovie(dailyRanking);
 
 let timer;
 let referIndex = 1;
@@ -101,7 +112,7 @@ window.onscroll = function () {
 
       if (currentScroll + windowHeight >= totalHeight) {
         roading = true;
-        cat.style.display = "block";
+        cat.style.display = "block"; //고양이 나옴
         console.log("로딩중: " + referIndex + "페이지");
         const newMovieNm = movieList(referIndex);
         let nextPage = [];
@@ -121,7 +132,7 @@ window.onscroll = function () {
           });
 
         // 병렬로 처리된 결과를 postMovie 함수에 전달
-        cat.style.display = "none"; //고양이 사라져
+        cat.style.display = "none"; //고양이 사라짐
         postMovie(nextPage);
         referIndex++;
         roading = false;
@@ -130,30 +141,27 @@ window.onscroll = function () {
   }
 };
 
-// 문자열 바탕으로 정보 호출하기
-// 호출한 정보를 표시하기
-// 1.오늘의 영화 뜨는거 막기
-//1-1. 무슨 기준으로 영화 뜨는걸 막을거냐
-//1-2. userParmas 에 값이 있는 경우 -> 기본으로 진행되던 오늘의 영화TOP 함수를 실행 하지 않는다
+
 let searchParams = new URLSearchParams(window.location.search).get("q"); //검색결과를 받아오는 테스트 코드
-
 findIfNeed();
-
 async function findIfNeed() {
   //검색 결과 쿼리가 있을때 즉시 검색
   if (searchParams) {
     console.log("검색어: " + searchParams);
-
+    if (searchParams == "이번주영화") {
+      console.log("week검색");
+      await load("Week");
+    } else if (searchParams == "오늘의영화") {
+      console.log("day검색");
+      await load("Day");
+    } else {
     await findToMovieNameAll(searchParams).then((data) => {
       searchResults = data;
       console.log("search.js 결과:" + searchResults);
       postMovie(searchResults);
-    });
-  } else {
-    postMovie(dailyRanking);
+    });}
   }
 }
-
 
 /*
 검색기능 구현
