@@ -46,6 +46,7 @@ function postMovie(movieArray) {
     makeMoviePoster.innerHTML = `
         <div class="card h-100">
           <img src='${index.TMDB.posterUrl}' class="card-img-top" alt="..." />
+          <p class="vote"><i class='bx bxs-star'></i>${index.TMDB.voteAverage.toFixed(1)}</p>
           <h5 class="card-title">${index.movieNm}</h5>
           <div class="card-footer">
             <small class="text-body-secondary">${index.TMDB.overView}</small>
@@ -173,3 +174,4 @@ function doSort(kind) {
     console.log("알 수 없는 값");
   }
 }
+//정렬관련 함수 끝 -------------------------------------------------------- 

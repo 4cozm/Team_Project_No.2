@@ -8,6 +8,21 @@ body {
   width: 100vw;
   height: auto;
 }
+.vote{
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  position: absolute;
+  border:1px solid var(--pinkDark);
+  background-color: white;
+  color:black;
+  border-radius: 5px;
+  text-align: center;
+  width: 40px;
+  overflow: hidden;
+  right:5%;
+  top: 1%;
+}
 
 .button {
   background-color: var(--backGround);
@@ -146,6 +161,10 @@ body {
   padding: 50px 10px;
   justify-content: space-around;
 }
+.todayMoviePosterBox{
+  position: sticky;
+  z-index: -1;
+}
 .todayMoviePoster{
   width: 300px;
   max-width: 300px;
@@ -201,6 +220,10 @@ body {
   display: flex;
   padding: 50px 10px;
   justify-content: space-around;
+}
+.weekMoviePosterBox{
+  position: sticky;
+  z-index: -1;
 }
 .weekMoviePoster{
   width: 300px;
