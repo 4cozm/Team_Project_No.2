@@ -3,11 +3,11 @@ export function test() {
   console.log("function.js의 메서드와 연결이 잘 되었습니다");
 }
 const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY
-const googleApikey = "AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50"; //google custom search API KEY
+//const googleApikey = "AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50"; //google custom search API KEY
 
 const searchEngineID = "e6605cbb614a4422a"; //구글 엔진 ID (포스터용)
-const kobisApiKey = "653c57a5ca2b00ae2ace38fd06de24a4"; //영화진흥 위원회 API KEY
-
+const kobisApiKey = "5860029de1d99a358423adc0832a2006"; //영화진흥 위원회 API KEY5860029de1d99a358423adc0832a2006
+//영화진흥위원회 호출횟수 초과하면 653c57a5ca2b00ae2ace38fd06de24a4
 // GET TheMovieDB Top-Rated
 export async function getTopRated() {
   const options = {
