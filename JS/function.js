@@ -116,8 +116,8 @@ async function searchMovieByName(movieName) {
     if (movieData.results[0].poster_path == null) {
       console.log(
         SpacedMovieNm +
-          "의 이미지가 없습니다 값 = " +
-          movieData.results[0].poster_path
+        "의 이미지가 없습니다 값 = " +
+        movieData.results[0].poster_path
       );
       posterUrl = await altSearchPoster(SpacedMovieNm);
     }
@@ -192,8 +192,7 @@ async function altSearchPoster(movieName) {
     });
 }
 
-//영화이름을 기반으로 영화진흥위원회에서 값을 찾음, 이후 포스터 이미지,줄거리,평점을 TMDB로 부터 요청함
-
+//영화이름을 기반으로 영화진흥위원회에서 맨 처음 값을 찾음, 이후 포스터 이미지,줄거리,평점을 TMDB로 부터 요청함
 export async function findToMovieName(movieName) {
   console.log("영화 이름 검색 시작:" + movieName);
   const fetch_url = `http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${kobisApiKey}&movieNm=${encodeURIComponent(
@@ -213,6 +212,30 @@ export async function findToMovieName(movieName) {
         result.TMDB = data;
         return result;
       });
+    });
+}
+export async function findToMovieNameAll(movieName) {
+  console.log("인풋과 일치하는 모든 영화 정보를 가져옵니다: " + movieName);
+  const fetch_url = `http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${kobisApiKey}&movieNm=${encodeURIComponent(
+    movieName
+  )}`;
+
+  return await fetch(fetch_url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("네트워크가 원활하지 않습니다");
+      }
+      return response.json();
+    })
+    .then(async (data) => {
+      let results = data.movieListResult.movieList;
+      console.log(data);
+      for (let index of results) {
+        const tmdbData = await searchMovieByName(index.movieNm);
+        index.TMDB = tmdbData;
+      }
+
+      return results;
     });
 }
 

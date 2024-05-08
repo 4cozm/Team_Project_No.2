@@ -1,31 +1,37 @@
+import {
+  test,
+  addPosterToTopRanking,
+  findToMovieName,
+  findToMovieNameAll,
+} from "./function.js";
+import { movieList } from "./movieList.js";
+
+starter();
+function starter() {
+  let search = document.querySelector("#btn_submit");
+  search.addEventListener("click", (event) => {
+    event.preventDefault();
+    const input = document.querySelector(".form-control").value;
+    let searchURL = "../HTML/search.html?q=" + input;
+    location.href = searchURL;
+  });
+}
+
+//enter 키 눌러서 검색하기 버튼 활성화하기
+function enterkey() {
+  if (window.event.keyCode == 13) {
+    search();
+  }
+}
+
 //로고를 눌렀을때 메인페이지로 이동하는 버튼구현
 let home = document.querySelector(".logo");
 home.addEventListener("click", () => {
   window.location.href = "../index.html";
 });
 
-/*전체보기 페이지 Js구현 
-
-1. html, api를 불러와 화면에 출력한다
-    api : 오늘의 top, 주간 top 영화
-2. 영화 정보는 포스터, 제목, 평점
-3. 화면배치 함수를 구현
-4. 그 함수가 배열정보를 받으면 자동으로 화면에 요소들을 배치하도록 한다
- */
-
-/*
-검색기능 구현
-1. 검색창에 영화 포스터 제목을 쓴다.
-2. 검색창을 클릭하면 영화 포스터 제목과 일치하는 전체 영화 정보를 보여준다.
-3.사용자에게 input으로 화면에 이미 출력되어 있는 요소들 중 해당 검색결과가 있는지 확인후 해당 array를 새 array에 push()
-이후 해당 배열을 화면배치 함수로 전달
- */
-
-import { test, addPosterToTopRanking, findToMovieName } from "./function.js";
-import { movieList } from "./movieList.js";
-
 test();
-
+let searchResults;
 let dailyRanking;
 let dailyRankingList = []; //현재 로딩된 모든 요소들을 가지고 있음 ->나중에 sort by 구현시 사용
 await addPosterToTopRanking("day").then((data) => {
@@ -60,7 +66,7 @@ postMovie(dailyRanking);
 let timer;
 let referIndex = 1;
 let roading = false; //로딩 여부확인 -> 이벤트 중복 등록을 방지하기 위한 변수
-const cat = document.querySelector(".loadingCat")
+const cat = document.querySelector(".loadingCat");
 window.onscroll = function () {
   if (roading === false) {
     clearTimeout(timer);
@@ -71,27 +77,27 @@ window.onscroll = function () {
 
       if (currentScroll + windowHeight >= totalHeight) {
         roading = true;
-        cat.style.display="block";
+        cat.style.display = "block";
         console.log("로딩중: " + referIndex + "페이지");
         const newMovieNm = movieList(referIndex);
         let nextPage = [];
 
         // 각각의 비동기 호출을 병렬로 처리
-        const promises = newMovieNm.map(index => findToMovieName(index));
+        const promises = newMovieNm.map((index) => findToMovieName(index));
 
         // 모든 비동기 호출이 완료될 때까지 기다림
         await Promise.all(promises)
-          .then(results => {
+          .then((results) => {
             // 결과를 nextPage 배열에 추가
             nextPage = results;
             dailyRankingList.push(results); //현재 로드된 배열정보에 새로운 요소들을 추가함
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
           });
 
         // 병렬로 처리된 결과를 postMovie 함수에 전달
-        cat.style.display="none"; //고양이 사라져
+        cat.style.display = "none"; //고양이 사라져
         postMovie(nextPage);
         referIndex++;
         roading = false;
@@ -99,3 +105,27 @@ window.onscroll = function () {
     }, 100); // 0.1초간 동작을 기다림
   }
 };
+
+// 문자열 바탕으로 정보 호출하기
+// 호출한 정보를 표시하기
+// 1.오늘의 영화 뜨는거 막기
+//1-1. 무슨 기준으로 영화 뜨는걸 막을거냐
+//1-2. userParmas 에 값이 있는 경우 -> 기본으로 진행되던 오늘의 영화TOP 함수를 실행 하지 않는다
+let searchParams = new URLSearchParams(window.location.search).get("q"); //검색결과를 받아오는 테스트 코드
+
+findIfNeed();
+
+async function findIfNeed() {
+  //검색 결과 쿼리가 있을때 즉시 검색
+  if (searchParams) {
+    console.log("검색어: " + searchParams);
+
+    await findToMovieNameAll(searchParams).then((data) => {
+      searchResults = data;
+      console.log("search.js 결과:" + searchResults);
+      postMovie(searchResults);
+    });
+  } else {
+    postMovie(dailyRanking);
+  }
+}
