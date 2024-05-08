@@ -59,11 +59,27 @@ export async function getDailyRanking() {
     });
 }
 
+function getLastMonday() {
+  let today = new Date();
+  let day = today.getDay(); // 현재 요일 (0: 일요일, 1: 월요일, ..., 6: 토요일)
+  let diff = today.getDate() - day - 6; // 저번 주 월요일로 이동
+  if (day === 1) { // 만약 오늘이 월요일이라면 이번 주 월요일이 아닌 저번 주 월요일을 반환
+      diff -= 7;
+  }
+  let lastMonday = new Date(today.setDate(diff));
+  
+  let year = lastMonday.getFullYear();
+  let month = (lastMonday.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
+  let date = lastMonday.getDate().toString().padStart(2, '0'); // 일을 2자리로 포맷팅
+  
+  return year + month + date;
+}
+
 // GET 영화진흥위원회 주간/주말 박스오피스
 // range 값 | 0 : 월~일 / 1 : 금~일 / 2 : 월~목 | 기본값 : 0 (월~일)
 export async function getWeeklyRanking(range = 0) {
   let key = "653c57a5ca2b00ae2ace38fd06de24a4"; // API-Key 값
-  let targetDate = `20240422`; // 조회할 주의 시작일(월요일) 지정
+  let targetDate = getLastMonday(); // 조회할 주의 시작일(월요일) 지정
   let fetch_url = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=${key}&targetDt=${targetDate}&weekGb=${range}`;
 
   let res;
@@ -100,8 +116,8 @@ async function searchMovieByName(movieName) {
     if (movieData.results[0].poster_path == null) {
       console.log(
         SpacedMovieNm +
-          "의 이미지가 없습니다 값 = " +
-          movieData.results[0].poster_path
+        "의 이미지가 없습니다 값 = " +
+        movieData.results[0].poster_path
       );
       posterUrl = await altSearchPoster(SpacedMovieNm);
     }
@@ -176,8 +192,7 @@ async function altSearchPoster(movieName) {
     });
 }
 
-//영화이름을 기반으로 영화진흥위원회에서 값을 찾음, 이후 포스터 이미지,줄거리,평점을 TMDB로 부터 요청함
-
+//영화이름을 기반으로 영화진흥위원회에서 맨 처음 값을 찾음, 이후 포스터 이미지,줄거리,평점을 TMDB로 부터 요청함
 export async function findToMovieName(movieName) {
   console.log("영화 이름 검색 시작:" + movieName);
   const fetch_url = `http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${kobisApiKey}&movieNm=${encodeURIComponent(
@@ -192,10 +207,35 @@ export async function findToMovieName(movieName) {
     })
     .then((data) => {
       let result = data.movieListResult.movieList[0];
+      console.log(result);
       return searchMovieByName(result.movieNm).then((data) => {
         result.TMDB = data;
         return result;
       });
+    });
+}
+export async function findToMovieNameAll(movieName) {
+  console.log("인풋과 일치하는 모든 영화 정보를 가져옵니다: " + movieName);
+  const fetch_url = `http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${kobisApiKey}&movieNm=${encodeURIComponent(
+    movieName
+  )}`;
+
+  return await fetch(fetch_url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("네트워크가 원활하지 않습니다");
+      }
+      return response.json();
+    })
+    .then(async (data) => {
+      let results = data.movieListResult.movieList;
+      console.log(data);
+      for (let index of results) {
+        const tmdbData = await searchMovieByName(index.movieNm);
+        index.TMDB = tmdbData;
+      }
+
+      return results;
     });
 }
 
