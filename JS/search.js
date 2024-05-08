@@ -107,6 +107,8 @@ window.onscroll = function () {
 };
 
 let searchParams = new URLSearchParams(window.location.search).get("q"); //검색결과를 받아오는 테스트 코드
+let showQuery= document.querySelector(".showQuery");
+showQuery.textContent=(searchParams);
 findIfNeed();
 async function findIfNeed() {
   //검색 결과 쿼리가 있을때 즉시 검색

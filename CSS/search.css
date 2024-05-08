@@ -26,10 +26,14 @@ body {
   margin-right: 13%;
   margin-left: auto;
   margin-top: 50px;
-
   width: 80px;
 }
-
+.showQuery{
+    position: absolute;
+    left: 50px;
+    color: white;
+    font-size: 3vw;
+}
 .btn_name {
   margin-bottom: 5px;
   background-color: var(--inputBox);
