@@ -59,7 +59,7 @@ postMovie(dailyRanking);
 
 let timer;
 let referIndex = 1;
-let roading = false;
+let roading = false; //로딩 여부확인 -> 이벤트 중복 등록을 방지하기 위한 변수
 const cat = document.querySelector(".loadingCat")
 window.onscroll = function () {
   if (roading === false) {
@@ -76,13 +76,13 @@ window.onscroll = function () {
         const newMovieNm = movieList(referIndex);
         let nextPage = [];
 
-        // 각각의 비동기 호출을 병렬로 처리합니다.
+        // 각각의 비동기 호출을 병렬로 처리
         const promises = newMovieNm.map(index => findToMovieName(index));
 
-        // 모든 비동기 호출이 완료될 때까지 기다립니다.
+        // 모든 비동기 호출이 완료될 때까지 기다림
         await Promise.all(promises)
           .then(results => {
-            // 결과를 nextPage 배열에 추가합니다.
+            // 결과를 nextPage 배열에 추가
             nextPage = results;
             dailyRankingList.push(results); //현재 로드된 배열정보에 새로운 요소들을 추가함
           })
@@ -90,12 +90,12 @@ window.onscroll = function () {
             console.error(error);
           });
 
-        // 병렬로 처리된 결과를 postMovie 함수에 전달합니다.
-        cat.style.display="none";
+        // 병렬로 처리된 결과를 postMovie 함수에 전달
+        cat.style.display="none"; //고양이 사라져
         postMovie(nextPage);
         referIndex++;
         roading = false;
       }
-    }, 100); // 0.1초간 동작을 기다립니다.
+    }, 100); // 0.1초간 동작을 기다림
   }
 };
