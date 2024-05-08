@@ -35,7 +35,7 @@
     <!--02_1 영화 포스터, 간단한 내용 보여주기-->
     <div class="movieContainer"></div>
 
-  <div class="underContainer">
+    <div class="underContainer">
     <!--아랫쪽 컨테이너들의 가장 외부 부모요소-->
     <div class="underButtonContainer">
       <!--주요정보,평점리뷰 이동버튼-->
@@ -90,91 +90,40 @@
       <button id="oderLastest" type="button">최신순</button>
       <button id="oderScore" type="button">평점순</button>
     </div>
+    <!--아래 리뷰창-->
     <div class="underReviewContainer">
-      <!--아래 리뷰창-->
-      <div class="underReview">
-        <div id="card_top">
-          <p class="R_nickname">Apple</p>
-          <p class="R_score">5</p>
-          <p class="R_comment">이곳은 평가를 적는 곳입니다.</p>
-        </div>
-        <br />
-        <div id="card_bottom">
-          <div class="col align-self-start">
-            <p class="R_date">2024-05-07</p>
-          </div>
-          <div class="col align-self-end"><button type="button" class="btn btn-primary" id="updateButton"
-              data-bs-toggle="modal" data-bs-target="#updateModal">수정</button></div>
-          <div class="col align-self-end"><button type="button" class="btn btn-danger" id="deleteButton"
-              value=0>삭제</button></div>
-        </div>
-      </div>
+      
     </div>
+    <div style="display: none;" class="greyScreen">
+			<div class="UDbox">
+				<!--기초 컨테이너-->
+				<div class="updateBox" style="display: none;">
+					<!--수정 작업시 보여질 컨테이너-->
+					<h2>데이터를 수정합니다</h2>
+					<input type="text" placeholder="수정할 이름" id="inputName">
+					<input type="text" placeholder="수정할 내용" id="inputComment">
+					<input id="ScoreInput" type="range" min="0" max="10" step="1" value="0" />
+          <p id="ScorePrint">
+            평점을 매겨주세요</p>
+					<input type="password" placeholder="비밀번호" id="input_PW">
+					<div class="btnBox">
+						<button class="btnCancel" type="button">취소</button>
+						<button class="btnSubmit" type="button" id="confirmUpdate">확인</button>
+					</div>
+				</div>
+				<div style="display: none;" class="deleteBox">
+					<!--삭제 작업시 보여질 컨테이너-->
+					<h2>데이터를 삭제합니다</h3>
+					<input type="password" placeholder="비밀번호" id="inputPW">
+					<div class="btnBox">
+						<button class="btnCancel" type="button">취소</button>
+						<button class="btnSubmit" type="button" id="confirmDelete">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- 수정 모달 -->
-    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="confirmDelModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">수정 확인</h5>
-              <button type="button" class="btn-closeUpdate" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p>수정할 사항을 입력하세요.</p>
-              <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="updateModalName"></textarea>
-                <label for="updateModalName">이름</label>
-              </div>
-              <div>
-                <input id="updateModalScoreInput" type="range" min="0" max="10" step="1" value="0" placeholder="평점" />
-                <span id="updateModalScorePrint">평점을 매겨주세요</span>
-              </div>
-              <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="updateModalPoint"></textarea>
-                <label for="updateModalPoint">영화의 어떤 점이 좋았나요?</label>
-              </div>
-
-              <div class="modal-footer">
-                <div class="form-floating">
-                  <input type="password" class="form-control" id="updateModalPassword" placeholder="Password" />
-                  <label for="updateModalPassword">비밀번호</label>
-                </div>
-                <button type="button" class="btn btn-danger" id="updateConfirm"
-                  value="${value.target.getAttribute('data-value')}">수정확인</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 삭제 모달 -->
-      <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="confirmDelModal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">수정 확인</h5>
-                <button type="button" class="btn-closeDelete" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <p>정말 삭제 하시겠습니까?</p>
-                <div class="modal-footer">
-                  <div class="form-floating">
-                    <input type="password" class="form-control" id="deleteModalPassword" placeholder="비밀번호 확인" />
-                    <label for="deleteModalPassword">비밀번호</label>
-                  </div>
-                  <button type="button" class="btn btn-danger" id="deleteConfirm"
-                    value="">삭제확인</button>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-</body>
+  </body>
 <script type="module" src="../JS/detailPage.js"></script>
 
 </html>
