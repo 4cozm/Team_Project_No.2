@@ -73,9 +73,13 @@ function displayTodayTop() {
   });
 }
 
-let move = document.querySelector(".todayMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
-move.addEventListener("click", () => {
-  window.location.href = "./HTML/search.html";
+let moveDayTop = document.querySelector(".todayMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
+moveDayTop.addEventListener("click", () => {
+  window.location.href = "./HTML/search.html?q=오늘의영화";
+});
+let moveWeekTop = document.querySelector(".weekMovieBtn"); //오늘의 영화 TOP 옆에 전체보기 버튼 구현
+moveWeekTop.addEventListener("click", () => {
+  window.location.href = "./HTML/search.html?q=이번주영화";
 });
 
 function displayWeekTop() {

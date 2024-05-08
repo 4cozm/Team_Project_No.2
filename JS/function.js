@@ -1,6 +1,6 @@
 //공통으로 사용할 기능을 구현하는 JS 파일입니다.
 export function test() {
-  console.log("function.js의 test 메서드와 연결이 잘 되었습니다");
+  console.log("function.js의 메서드와 연결이 잘 되었습니다");
 }
 const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY
 const googleApikey = "AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50"; //google custom search API KEY
