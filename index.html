@@ -21,12 +21,13 @@
       <img class="navbar-brand" src="image/age/COFFEE_MOVIE.png"  ></a>
       <form class="d-flex">
         <input
+          id="inputSearch"
           class="form-control me-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
         />
-        <button id="btn_submit" class="btn btn-outline-success" type="submit">검색</button>
+        <button type="submit" id="btn_search" class="btn btn-outline-success">검색</button>
       </form>
     </div>
   </nav>
@@ -71,7 +72,13 @@
       Copyright 2024. COFFEE_MOVIE All rights reserved.
     </div>
   </footer>
-  <script type="module" src="index.js"></script>
+  <script type="module" src="./index.js"></script>
+  <script type="module" src="./JS/function.js">
+    let temp = getNowPlaying();
+    console.log(temp);
+  </script>
+
+  
 </body>
 
 </html>

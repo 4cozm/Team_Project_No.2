@@ -210,3 +210,25 @@ function addSpace(str) {
   }
   return str;
 }
+
+// GET TheMovieDB Now_Playing
+export async function getNowPlaying() {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYTM1OGMyZTFkNDExZjhlYTdiYzNlODNiMTU1MmNjZiIsInN1YiI6IjY2MjlmZTMxZjcwNmRlMDExZjRmZGQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CuaQoR0S4oo5lny0tSRCC7p-siuCDsw9zZjwkKA1yiM",
+    },
+  };
+
+  return fetch(
+    "https://api.themoviedb.org/3/movie/now_playing?language=ko-US&page=1&region=410",
+    options
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data.results;
+    })
+    .catch((error) => console.error("Error fetching data:", error));
+}

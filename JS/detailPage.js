@@ -45,6 +45,7 @@ infoButton.addEventListener("click", () => {
 });
 
 let searchParams = new URLSearchParams(window.location.search).get("q"); //검색결과를 받아오는 테스트 코드
+console.log(searchParams);
 
 let movieData; //searchParams의 영화명을 검색한 영화의 정보가 담기는 구역
 findIfNeed();
@@ -63,7 +64,7 @@ function displayMovie(movieData) { //영화 정보를 삽입하면 화면에 출
   let movieInfo = document.createElement("div");
   movieInfo.classList.add("movieInfo");
   let releaseDate = movieData.openDt;
-  releaseDate = releaseDate.slice(0, 4) + '년' + releaseDate.slice(4, 6) + '월' + releaseDate.slice(6)+"일";
+  releaseDate = releaseDate.slice(0, 4) + '년' + releaseDate.slice(4, 6) + '월' + releaseDate.slice(6) + "일";
   movieInfo.innerHTML = `
   <p class="movieTitle" >${movieData.movieNm}</p>
   <p class="movieRelease" >출시일:${releaseDate}</p>
@@ -73,17 +74,234 @@ function displayMovie(movieData) { //영화 정보를 삽입하면 화면에 출
   movieContainer.appendChild(movieInfo);
   let moviePoster = document.createElement("img");
   moviePoster.classList.add("moviePoster");
-  moviePoster.setAttribute("src",`${movieData.TMDB.posterUrl}`);
+  moviePoster.setAttribute("src", `${movieData.TMDB.posterUrl}`);
   movieContainer.appendChild(moviePoster);
 
   const underInfo = document.querySelector(".underInfoForm");
   let newOverView = document.createElement("div");
   newOverView.classList.add("overView");
-  newOverView.innerHTML=movieData.TMDB.overView;
+  newOverView.innerHTML = movieData.TMDB.overView;
   underInfo.appendChild(newOverView);
 }
 
 let homeButton = document.querySelector(".home");
-homeButton.addEventListener("click",()=>{
+homeButton.addEventListener("click", () => {
   window.location.href = "../index.html";
 });
+
+
+
+// 예상 사용처 : 리뷰저장, 리뷰수정
+// scanData : 입력창에 입력된 데이터 로드
+function scanData() {
+  let Review = {
+    Name: document.querySelector("#floatingTextareaName").value,
+    Password: document.querySelector("#floatingPassword").value,
+    PasswordConfirm: document.querySelector("#floatingPasswordConfirm").value,
+    Rating: document.querySelector("#movieScoreInput").value,
+    Point: document.querySelector("#floatingTextareaPoint").value
+  }
+
+  return Review;
+}
+
+// 예상 사용처 : 리뷰저장, 리뷰수정
+// getData : localStorage에서 데이터 로드
+function getData(MovieName) {
+  let datas = [];
+  datas = JSON.parse(localStorage.getItem(MovieName)) || [];
+
+  return datas;
+}
+
+// 예상 사용처 : 리뷰저장, 리뷰수정
+// saveData : localStorage에 데이터 저장/추가
+function saveData(Recv) {
+  const movieName = searchParams;
+  const today = new Date();
+  const date = today.getFullYear + '-' + today.getMonth + '-' + today.getDay;
+
+  let send = {};
+  send.Name = Recv.Name;
+  send.password = Recv.Password;
+  send.Rating = Recv.Rating;
+  send.Point = Recv.Point;
+  send.Date = date;
+  console.log(send);
+
+  let saved = [];
+  saved = JSON.parse(localStorage.getItem(movieName)) || [];
+  if (!saved) { localStorage.setItem(movieName, JSON.stringify(send)); return; }
+  saved.push(send);
+  localStorage.setItem(movieName, JSON.stringify(saved));
+}
+
+// 리뷰작성탭 리뷰저장버튼 클릭시,
+// 입력한 데이터를 불러와 준비한뒤 localStorage로 저장
+const saveButton = document.querySelector("#saveReview");
+saveButton.addEventListener("click", () => {
+  const Data = scanData();
+  console.log(Data);
+
+  // 비밀번호와 확인 일치여부 확인
+  if (Data.Password != Data.PasswordConfirm) {
+    alert("비밀번호가 확인과 일치하지 않습니다.");
+  } else {
+    // 일치시 리뷰데이터 저장
+    saveData(Data);
+
+    location.reload();
+  }
+
+
+});
+
+// 리뷰카드 생성함수
+function setReviewCard(DATAS) {
+  // 리뷰카드 리스트 초기화
+  const reviewList = document.querySelector('.underReviewContainer');
+  reviewList.innerHTML = '';
+
+  let count = 0;
+  DATAS.forEach((data) => {
+    let card_html = `
+    <div class="underReview">
+      <div id="card_top">
+        <p class="R_nickname">${data['Name']}</p>
+        <p class="R_score">${data['Rating']}</p>
+        <p class="R_comment">${data['Point']}</p>
+      </div>
+      <br />
+      <div id="card_bottom">
+        <div class="col align-self-start"><p class="R_date">${data['Date']}</p></div>
+        <div class="col align-self-end"><button type="button" class="btn btn-primary" id="updateButton" value="${count}" data-bs-toggle="modal" 
+        data-bs-target="#updateModal">수정</button></div>
+        <div class="col align-self-end"><button type="button" class="btn btn-danger" id="deleteButton" value="${count}" data-bs-toggle="modal" 
+        data-bs-target="#deleteModal">삭제</button></div>
+      </div>
+    </div>
+    `;
+
+    reviewList.insertAdjacentHTML("afterbegin", card_html);
+    count++;
+  });
+
+}
+
+// ----- 여기까지는 잘 됨 -----
+
+// 리뷰삭제 함수
+function deleteReview(idx, input) {
+  const PW = Recv_DATAS[idx].Password;
+  console.log(PW);
+
+  // 비밀번호와 확인 일치여부 확인
+  if (PW != input) {
+    alert("비밀번호가 일치하지 않습니다.");
+  } else {
+    // 일치시 리뷰데이터 저장
+    saveData(Data);
+
+    location.reload();
+  }
+}
+
+
+
+
+
+async function addEvent_UpdateDelete() {
+  // 수정/삭제 버튼 요소 준비
+  const updateBtn = document.getElementById('updateButton');
+  const deleteBtn = document.getElementById('deleteButton');
+  console.log(updateBtn);
+  console.log(deleteBtn);
+
+
+  /*
+  // 수정모달 생성&팝업 이벤트
+  updateBtn.addEventListener("click", () => {
+    let update_html = `
+    <div class="modal-dialog modal-dialog-centered">
+      <div>
+
+      </div>
+    </div>
+    `;
+  });
+  */
+
+  let modal_html;
+
+  
+
+  function createDelModal() {
+    //event.preventDefault();
+    let idx = deleteBtn.getAttribute("value");
+    console.log("카드의 삭제버튼 클릭됨.");
+
+    modal_html = `
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">삭제 확인</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    <div class="modal-body">
+      <p>정말로 삭제하시겠습니까?</p>
+    </div>
+    <div class="modal-footer">
+      <div class="form-floating">
+        <input type="password" class="form-control" id="modalPW" placeholder="Password" />
+        <label for="floatingPassword">비밀번호 확인</label>
+      </div>
+      <button type="button" class="btn btn-danger" id="deleteConfirm" value="${idx}">삭제확인</button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+    </div>
+    </div>
+    </div>
+  </div>
+  `;
+
+    let delModalPlace = document.getElementById('updateModal');
+    delModalPlace.innerHTML = '';
+
+    delModalPlace.insertAdjacentHTML("afterbegin", modal_html);
+    console.log(delModalPlace);
+  }
+
+  function showModal(target) {
+    
+  }
+
+  // 삭제모달 생성 이벤트
+  deleteBtn.addEventListener("click", () => {
+    createDelModal();
+
+
+  });
+
+}
+
+/*
+let modalPlace = document.querySelector('#deleteModal');
+modalPlace.appendChild(modal_html);
+
+newModal.style.display = 'block';
+*/
+
+
+
+
+let Recv_DATAS;
+// 페이지 로드시 수행
+window.onload = async function () {
+  Recv_DATAS = await getData(searchParams);
+  console.log(Recv_DATAS);
+
+  // 데이터 준비 후 카드 생성
+  await setReviewCard(Recv_DATAS);
+
+  await addEvent_UpdateDelete();
+}
