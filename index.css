@@ -30,6 +30,7 @@ body {
 }
 /*01_네비게이션*/
 #navbar {
+  z-index: 10;
   position: fixed;
   top:0px;
   width: 100vw;
@@ -162,8 +163,9 @@ body {
   justify-content: space-around;
 }
 .todayMoviePosterBox{
+  padding-bottom: 20px;
   position: sticky;
-  z-index: -1;
+  z-index: 0;
 }
 .todayMoviePoster{
   width: 300px;
@@ -223,7 +225,7 @@ body {
 }
 .weekMoviePosterBox{
   position: sticky;
-  z-index: -1;
+  z-index: 0;
 }
 .weekMoviePoster{
   width: 300px;
