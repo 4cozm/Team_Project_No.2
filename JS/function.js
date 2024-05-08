@@ -269,3 +269,51 @@ export async function youtubeLink(movieName) {
     throw error;
   }
 }
+
+export async function youtubeLink(movieName) {
+  try {
+    // YouTube API를 통해 영화 이름으로 검색하여 동영상 정보 가져오기
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${movieName}+예고편&type=video&key=${googleApikey}`
+    );
+    const data = await response.json();
+
+    // API 응답에서 첫 번째 동영상 정보 추출
+    const video = data.items[0];
+
+    if (!video) {
+      throw new Error("영화 예고편이 없습니다.");
+    }
+
+    // 동영상 정보 반환
+    const videoId = video.id.videoId;
+    const videoLink = `https://www.youtube.com/embed/${videoId}`;
+
+    return videoLink;
+  } catch (error) {
+    console.error("YouTube API 오류:", error);
+    throw error;
+  }
+}
+
+// GET TheMovieDB Now_Playing
+export async function getNowPlaying() {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYTM1OGMyZTFkNDExZjhlYTdiYzNlODNiMTU1MmNjZiIsInN1YiI6IjY2MjlmZTMxZjcwNmRlMDExZjRmZGQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CuaQoR0S4oo5lny0tSRCC7p-siuCDsw9zZjwkKA1yiM",
+    },
+  };
+
+  return fetch(
+    "https://api.themoviedb.org/3/movie/now_playing?language=ko-US&page=1&region=410",
+    options
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data.results;
+    })
+    .catch((error) => console.error("Error fetching data:", error));
+}

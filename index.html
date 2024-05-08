@@ -13,6 +13,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'><!--평점 별 아이콘-->
     
 </head>
+
 <body>
   <!--01_네비게이션-->
   <nav id="navbar" class="navbar navbar-light bg-light">
@@ -25,7 +26,7 @@
           placeholder="Search"
           aria-label="Search"
         />
-        <button id="btn_submit" class="btn btn-outline-success" type="submit">검색</button>
+        <button type="submit" id="btn_search" class="btn btn-outline-success">검색</button>
       </form>
     </div>
   </nav>
@@ -70,7 +71,14 @@
       Copyright 2024. COFFEE_MOVIE All rights reserved.
     </div>
   </footer>
-  <script type="module" src="index.js"></script>
+  <script type="module" src="./index.js"></script>
+  <script type="module" src="./JS/function.js">
+    let temp = getNowPlaying();
+    console.log(temp);
+  </script>
+
+  
 </body>
+
 </html>
 

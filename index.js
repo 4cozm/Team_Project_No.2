@@ -1,5 +1,7 @@
 //메인 로직을 구현하는 JS 파일입니다
-import { test, addPosterToTopRanking } from "./JS/function.js";
+import
+{ test, addPosterToTopRanking, getTopRated, getDailyRanking, getWeeklyRanking }
+from "./JS/function.js";
 window.addEventListener("load", fetchData);
 test();
 let dailyRanking = []; //오늘의 영화 TOP 10
@@ -143,4 +145,17 @@ function updatePageWithData(Day, Week) {
   displayWeekTop();
   ScrollMain();
 }
+
+// 검색버튼 클릭시 수행 : 검색페이지로 파라미터값 추가하여 전달
+let searchButton = document.querySelector("#btn_search");
+searchButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  
+  let target = document.querySelector("#inputSearch").value;
+
+  // 경로 : ./HTML폴더/html파일?파라미터=value
+  let searchURL = "./HTML/search.html?q="+target;
+
+  location.href = searchURL;
+});
 
