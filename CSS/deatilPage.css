@@ -79,8 +79,8 @@ body {
 .moviePoster,
 .movieInfo {
   overflow: hidden;
-  width: 450px;
-  height: 100%;
+  width: 350px;
+  height: auto;
   border-radius: 10px;
   background-color: var(--pinkLight);
 }
@@ -397,5 +397,13 @@ body {
 .btnBox{
   width: 50%;
   display: flex;
+  justify-content: space-around;
+}
+.deleteBox{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-around;
 }
