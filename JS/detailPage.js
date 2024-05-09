@@ -274,8 +274,8 @@ function bindButton() {
     index.addEventListener("click", (event) => {
       const value = event.target.value;
 
-      greyScreen.style.display = "block";
-      updateBox.style.display = "block";
+      greyScreen.style.display = "";
+      updateBox.style.display = "flex";
 
       let tarBtn = document.querySelector("#confirmUpdate");
       tarBtn.setAttribute("value", value);
@@ -286,7 +286,7 @@ function bindButton() {
       const value = event.target.value;
 
       greyScreen.style.display = "block";
-      deleteBox.style.display = "block";
+      deleteBox.style.display = "flex";
 
       let tarBtn = document.querySelector("#confirmDelete");
       tarBtn.setAttribute("value", value);
