@@ -79,8 +79,8 @@ body {
 .moviePoster,
 .movieInfo {
   overflow: hidden;
-  width: 450px;
-  height: 100%;
+  width: 350px;
+  height: auto;
   border-radius: 10px;
   background-color: var(--pinkLight);
 }

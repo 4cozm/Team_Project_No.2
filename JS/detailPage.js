@@ -1,5 +1,4 @@
 import {
-  addPosterToTopRanking,
   findToMovieName,
   youtubeLink,
 } from "../JS/function.js";
@@ -81,10 +80,15 @@ function displayMovie(movieData) {
     "월" +
     releaseDate.slice(6) +
     "일";
+    let directorNm = "감독명 없음";
+    if(movieData.directors.length !== 0)
+      {
+        directorNm = movieData.directors[0].peopleNm;
+      }
   movieInfo.innerHTML = `
   <p class="movieTitle" >${movieData.movieNm}</p>
   <p class="movieRelease" >출시일:${releaseDate}</p>
-  <p class="movieDirector" >감독:${movieData.directors[0].peopleNm}</p>
+  <p class="movieDirector" >감독:${directorNm}</p>
   <p class="movieMaker" >제작사:${
     movieData.companys && movieData.companys[0]
       ? movieData.companys[0].companyNm
@@ -108,8 +112,6 @@ let homeButton = document.querySelector(".home");
 homeButton.addEventListener("click", () => {
   window.location.href = "../index.html";
 });
-
-
 
 // 예상 사용처 : 리뷰저장, 리뷰수정
 // scanData : 입력창에 입력된 데이터 로드
@@ -139,9 +141,13 @@ function saveData(Recv) {
   const movieName = searchParams;
   const today = new Date();
   const date =
-    today.getFullYear() + "-" + 
-    ((today.getMonth()+1) < 10 ? '0'+(today.getMonth()+1) : (today.getMonth()+1) ) + "-" + 
-    (today.getDate() < 10 ? '0'+(today.getDate()) : (today.getDate()) );
+    today.getFullYear() +
+    "-" +
+    (today.getMonth() + 1 < 10
+      ? "0" + (today.getMonth() + 1)
+      : today.getMonth() + 1) +
+    "-" +
+    (today.getDate() < 10 ? "0" + today.getDate() : today.getDate());
 
   let send = {};
   send.Name = Recv.Name;
@@ -184,28 +190,28 @@ saveButton.addEventListener("click", () => {
 
 // 비밀번호 유효성을 검사하는 함수 테스트 끝나면 활성화
 function validatePassword(password) {
-  // 비밀번호의 최소 길이 설정
-  // const minLength = 8;
-  // // 최소 길이 조건 검사
-  // if (password.length < minLength) {
-  //   return false;
-  // }
-  // // 숫자 포함 여부 검사
-  // if (!/\d/.test(password)) {
-  //   return false;
-  // }
-  // // 대문자 포함 여부 검사
-  // if (!/[A-Z]/.test(password)) {
-  //   return false;
-  // }
-  // // 소문자 포함 여부 검사
-  // if (!/[a-z]/.test(password)) {
-  //   return false;
-  // }
-  // // 특수문자 포함 여부 검사
-  // if (!/[!@#$%^&*]/.test(password)) {
-  //   return false;
-  // }
+  //비밀번호의 최소 길이 설정
+  const minLength = 8;
+  // 최소 길이 조건 검사
+  if (password.length < minLength) {
+    return false;
+  }
+  // 숫자 포함 여부 검사
+  if (!/\d/.test(password)) {
+    return false;
+  }
+  // 대문자 포함 여부 검사
+  if (!/[A-Z]/.test(password)) {
+    return false;
+  }
+  // 소문자 포함 여부 검사
+  if (!/[a-z]/.test(password)) {
+    return false;
+  }
+  // 특수문자 포함 여부 검사
+  if (!/[!@#$%^&*]/.test(password)) {
+    return false;
+  }
   return true;
 }
 
@@ -217,8 +223,10 @@ function setReviewCard(DATAS) {
 
   let count = 0;
   DATAS.forEach((data) => {
-    let stars = '';
-    for (let i = 0; i < data['Rating']; i++) { stars += '★'; }
+    let stars = "";
+    for (let i = 0; i < data["Rating"]; i++) {
+      stars += "★";
+    }
 
     let card_html = `
     <div class="underReview">
@@ -250,8 +258,6 @@ function setReviewCard(DATAS) {
   bindButton(); //로드가 끝나면 수정,삭제 버튼을 일괄적으로 등록
 }
 
-// ----- 여기까지는 잘 됨 -----
-
 
 //삭제 수정버튼의 이벤트를 등록해주는 함수 맨 아래 window.onload에서 작동함
 const updateBox = document.querySelector(".updateBox");
@@ -263,24 +269,22 @@ function bindButton() {
   upBtn.forEach((index) => {
     index.addEventListener("click", (event) => {
       const value = event.target.value;
-      console.log("수정버튼눌림" + value);
-      
+
       greyScreen.style.display = "block";
       updateBox.style.display = "block";
 
-      let tarBtn = document.querySelector('#confirmUpdate');
+      let tarBtn = document.querySelector("#confirmUpdate");
       tarBtn.setAttribute("value", value);
     });
   });
   delBtn.forEach((index) => {
     index.addEventListener("click", (event) => {
       const value = event.target.value;
-      console.log("삭제버튼 눌림" + value);
-      
+
       greyScreen.style.display = "block";
       deleteBox.style.display = "block";
 
-      let tarBtn = document.querySelector('#confirmDelete');
+      let tarBtn = document.querySelector("#confirmDelete");
       tarBtn.setAttribute("value", value);
     });
   });
@@ -298,14 +302,13 @@ function updateData(index) {
   console.log(PW);
 
   // 입력창 데이터 로드
-  let inputName = document.querySelector('#inputName').value;
-  let inputRating = document.querySelector('#ScoreInput').value;
-  let inputComment = document.querySelector('#inputComment').value;
-  let input_PW = document.querySelector('#input_PW').value;
-  console.log(input_PW);
+  let inputName = document.querySelector("#inputName").value;
+  let inputRating = document.querySelector("#ScoreInput").value;
+  let inputComment = document.querySelector("#inputComment").value;
+  let input_PW = document.querySelector("#input_PW").value;
 
   // 비밀번호 일치시 수정작업 + 새로고침 실행
-  if(PW == input_PW) {
+  if (PW == input_PW) {
     // 해당 객체(리뷰) 수정
     Recv_DATAS[index].Name = inputName;
     Recv_DATAS[index].Rating = inputRating;
@@ -314,50 +317,46 @@ function updateData(index) {
     // 수정된 리뷰데이터 저장(덮어쓰기)
     localStorage.setItem(searchParams, JSON.stringify(Recv_DATAS));
     alert("수정 완료.");
-    
+
     // 새로고침 실행
     location.reload();
-  } 
-  else {    // 일치하지 않을경우 수행안함
+  } else {
+    // 일치하지 않을경우 수행안함
     alert("비밀번호가 일치하지 않습니다.");
   }
-
 }
 // 삭제 기능
 function deleteData(index) {
   console.log(Recv_DATAS[index]);
   let PW = Recv_DATAS[index].password;
 
-  let inputPW = document.querySelector('#inputPW').value;
+  let inputPW = document.querySelector("#inputPW").value;
 
   // 비밀번호 일치시 삭제작업 + 새고로침 실행
-  if(PW == inputPW) {
+  if (PW == inputPW) {
     Recv_DATAS.splice(index, 1);
     localStorage.setItem(searchParams, JSON.stringify(Recv_DATAS));
-
-    console.log(Recv_DATAS);
     alert("삭제 완료.");
-    
+
     // 새로고침 실행
     location.reload();
-  } 
-  else {    // 일치하지 않을경우 수행안함
+  } else {
+    // 일치하지 않을경우 수행안함
     alert("비밀번호가 일치하지 않습니다.");
   }
-
 }
 
 // HTML 요소의 Class or ID 필요!
 // 수정확인 버튼 요소
-let confirmUpdate = document.querySelector('#confirmUpdate');
+let confirmUpdate = document.querySelector("#confirmUpdate");
 // 삭제확인 버튼 요소
-let confirmDelete = document.querySelector('#confirmDelete');
+let confirmDelete = document.querySelector("#confirmDelete");
 
 // 수정확인 클릭 이벤트
 confirmUpdate.addEventListener("click", (event) => {
   // index값 로드
   let index = event.target.value;
-  
+
   // 수정작업 수행
   updateData(index);
 });
@@ -365,11 +364,10 @@ confirmUpdate.addEventListener("click", (event) => {
 confirmDelete.addEventListener("click", (event) => {
   // index값 로드
   let index = event.target.value;
-  
+
   // 수정작업 수행
   deleteData(index);
 });
-
 
 const val = document.querySelector("#ScorePrint");
 const inp = document.querySelector("#ScoreInput");
@@ -399,20 +397,20 @@ inp.addEventListener("input", (event) => {
 
 const greyScreen = document.querySelector(".greyScreen");
 greyScreen.addEventListener("click", (event) => {
-  if (event.target.className == 'greyScreen') {
-  greyScreen.style.display = "none";
-  updateBox.style.display = "none";
-  deleteBox.style.display = "none";
+  if (event.target.className == "greyScreen") {
+    greyScreen.style.display = "none";
+    updateBox.style.display = "none";
+    deleteBox.style.display = "none";
   }
 });
 const btnCancel = document.querySelectorAll(".btnCancel");
-btnCancel.forEach((index)=>{
-  index.addEventListener("click",()=>{
-    greyScreen.style.display="none";
+btnCancel.forEach((index) => {
+  index.addEventListener("click", () => {
+    greyScreen.style.display = "none";
     updateBox.style.display = "none";
     deleteBox.style.display = "none";
-  })
-})
+  });
+});
 
 let Recv_DATAS = [];
 // 페이지 로드시 수행
@@ -420,9 +418,6 @@ window.onload = function () {
   Recv_DATAS = getData(searchParams);
   if (Recv_DATAS.length !== 0) {
     setReviewCard(Recv_DATAS);
-    console.log("데이터 불러옴");
-  } else {
-    console.log("데이터를 찾지 못했습니다");
   }
   //
 };

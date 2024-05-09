@@ -99,7 +99,7 @@ function displayWeekTop() {
     weekMovieBox.appendChild(week);
     week.addEventListener("click", () => {
       window.location.href =
-        "./HTML/search.html?q=" + encodeURIComponent(index.movieNm);
+        "./HTML/detailPage.html?q=" + encodeURIComponent(index.movieNm);
     });
   });
 }
