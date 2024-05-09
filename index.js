@@ -17,7 +17,7 @@ searchButton.addEventListener("click", (event) => {
   let searchURL = "./HTML/search.html?q=" + target;
   location.href = searchURL;
 });
-searchButton();
+
 
 function mainMovie(num) {
   //메인페이지 상단 부분
@@ -151,4 +151,5 @@ function updatePageWithData(Day, Week) {
   displayTodayTop();
   displayWeekTop();
   ScrollMain();
+  searchButton();
 }
