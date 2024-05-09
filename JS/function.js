@@ -3,7 +3,7 @@ export function test() {
   console.log("function.js의 메서드와 연결이 잘 되었습니다");
 }
 const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY 
-const googleApikey = "AIzaSyBgS9BZwG1TDB6B6yFiAx1WMVeW9Z19YIo"; //google custom search API KEY AIzaSyBgS9BZwG1TDB6B6yFiAx1WMVeW9Z19YIo  AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50
+const googleApikey = "AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50"; //google custom search API KEY AIzaSyBgS9BZwG1TDB6B6yFiAx1WMVeW9Z19YIo  
 
 const searchEngineID = "e6605cbb614a4422a"; //구글 엔진 ID (포스터용)
 const kobisApiKey = "5860029de1d99a358423adc0832a2006"; //영화진흥 위원회

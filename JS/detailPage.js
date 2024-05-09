@@ -1,7 +1,4 @@
-import {
-  findToMovieName,
-  youtubeLink,
-} from "../JS/function.js";
+import { findToMovieName, youtubeLink } from "../JS/function.js";
 
 const value = document.querySelector("#movieScorePrint");
 const input = document.querySelector("#movieScoreInput");
@@ -27,6 +24,15 @@ input.addEventListener("input", (event) => {
   const ratingText = `${filledStars}점`;
 
   value.innerHTML = `${starsHTML} ${ratingText}`;
+});
+
+let searchButton = document.querySelector("#btn_submit");
+searchButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  let target = document.querySelector(".inputSearch").value;
+  // 경로 : ./HTML폴더/html파일?파라미터=value
+  let searchURL = "./search.html?q=" + target;
+  location.href = searchURL;
 });
 
 const reviewButton = document.querySelector(".underButtonReview"); //평점리뷰 버튼
@@ -80,11 +86,10 @@ function displayMovie(movieData) {
     "월" +
     releaseDate.slice(6) +
     "일";
-    let directorNm = "감독명 없음";
-    if(movieData.directors.length !== 0)
-      {
-        directorNm = movieData.directors[0].peopleNm;
-      }
+  let directorNm = "감독명 없음";
+  if (movieData.directors.length !== 0) {
+    directorNm = movieData.directors[0].peopleNm;
+  }
   movieInfo.innerHTML = `
   <p class="movieTitle" >${movieData.movieNm}</p>
   <p class="movieRelease" >출시일:${releaseDate}</p>
@@ -257,7 +262,6 @@ function setReviewCard(DATAS) {
   });
   bindButton(); //로드가 끝나면 수정,삭제 버튼을 일괄적으로 등록
 }
-
 
 //삭제 수정버튼의 이벤트를 등록해주는 함수 맨 아래 window.onload에서 작동함
 const updateBox = document.querySelector(".updateBox");
