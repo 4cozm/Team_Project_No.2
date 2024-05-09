@@ -151,5 +151,4 @@ function updatePageWithData(Day, Week) {
   displayTodayTop();
   displayWeekTop();
   ScrollMain();
-  searchButton();
 }
