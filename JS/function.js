@@ -1,13 +1,13 @@
 //공통으로 사용할 기능을 구현하는 JS 파일입니다.
 export function test() {
-  console.log("function.js의 test 메서드와 연결이 잘 되었습니다");
+  console.log("function.js의 메서드와 연결이 잘 되었습니다");
 }
 const apiKey = "5fa425f3aa4cb48d2b6a9c372404cc24"; //TMDB API KEY
-const googleApikey = "AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50"; //google custom search API KEY
+//const googleApikey = "AIzaSyAbpGHHJR1pWCdRA8amhHXSG6Zt7br3y50"; //google custom search API KEY
 
-const searchEngineID = "e6605cbb614a4422a"; //구글 엔진 ID
-const kobisApiKey = "653c57a5ca2b00ae2ace38fd06de24a4"; //영화진흥 위원회 API KEY
-
+const searchEngineID = "e6605cbb614a4422a"; //구글 엔진 ID (포스터용)
+const kobisApiKey = "5860029de1d99a358423adc0832a2006"; //영화진흥 위원회 API KEY5860029de1d99a358423adc0832a2006
+//영화진흥위원회 호출횟수 초과하면 653c57a5ca2b00ae2ace38fd06de24a4
 // GET TheMovieDB Top-Rated
 export async function getTopRated() {
   const options = {
@@ -63,15 +63,16 @@ function getLastMonday() {
   let today = new Date();
   let day = today.getDay(); // 현재 요일 (0: 일요일, 1: 월요일, ..., 6: 토요일)
   let diff = today.getDate() - day - 6; // 저번 주 월요일로 이동
-  if (day === 1) { // 만약 오늘이 월요일이라면 이번 주 월요일이 아닌 저번 주 월요일을 반환
-      diff -= 7;
+  if (day === 1) {
+    // 만약 오늘이 월요일이라면 이번 주 월요일이 아닌 저번 주 월요일을 반환
+    diff -= 7;
   }
   let lastMonday = new Date(today.setDate(diff));
-  
+
   let year = lastMonday.getFullYear();
-  let month = (lastMonday.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
-  let date = lastMonday.getDate().toString().padStart(2, '0'); // 일을 2자리로 포맷팅
-  
+  let month = (lastMonday.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷팅
+  let date = lastMonday.getDate().toString().padStart(2, "0"); // 일을 2자리로 포맷팅
+
   return year + month + date;
 }
 
@@ -114,17 +115,13 @@ async function searchMovieByName(movieName) {
     posterUrl =
       "https://image.tmdb.org/t/p/w500/" + movieData.results[0].poster_path;
     if (movieData.results[0].poster_path == null) {
-      console.log(
-        SpacedMovieNm +
-        "의 이미지가 없습니다 값 = " +
-        movieData.results[0].poster_path
-      );
       posterUrl = await altSearchPoster(SpacedMovieNm);
     }
     voteAverage = movieData.results[0].vote_average;
     overView = movieData.results[0].overview;
   } catch (error) {
     console.error("영화 검색 중 오류 발생:", error);
+    posterUrl = await altSearchPoster(SpacedMovieNm);
   }
 
   return { posterUrl, voteAverage, overView };
@@ -182,8 +179,7 @@ async function altSearchPoster(movieName) {
     })
     .then((data) => {
       // 이미지 검색 결과를 처리하는 코드
-      console.log("대체검색 실시 영화명:" + movieName);
-      console.log("대체생성 이미지 URL:" + data.items[0].link);
+      console.log("TMDB 포스터 확인 불가 ! 대체검색 실시 영화명:" + movieName);
       return data.items[0].link; // 이미지 검색 결과가 포함된 항목(items)을 출력
     })
     .catch((error) => {
@@ -194,7 +190,6 @@ async function altSearchPoster(movieName) {
 
 //영화이름을 기반으로 영화진흥위원회에서 맨 처음 값을 찾음, 이후 포스터 이미지,줄거리,평점을 TMDB로 부터 요청함
 export async function findToMovieName(movieName) {
-  console.log("영화 이름 검색 시작:" + movieName);
   const fetch_url = `http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${kobisApiKey}&movieNm=${encodeURIComponent(
     movieName
   )}`;
@@ -207,7 +202,6 @@ export async function findToMovieName(movieName) {
     })
     .then((data) => {
       let result = data.movieListResult.movieList[0];
-      console.log(result);
       return searchMovieByName(result.movieNm).then((data) => {
         result.TMDB = data;
         return result;
@@ -229,7 +223,6 @@ export async function findToMovieNameAll(movieName) {
     })
     .then(async (data) => {
       let results = data.movieListResult.movieList;
-      console.log(data);
       for (let index of results) {
         const tmdbData = await searchMovieByName(index.movieNm);
         index.TMDB = tmdbData;
@@ -249,4 +242,52 @@ function addSpace(str) {
     }
   }
   return str;
+}
+
+export async function youtubeLink(movieName) {
+  try {
+    // YouTube API를 통해 영화 이름으로 검색하여 동영상 정보 가져오기
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${movieName}+예고편&type=video&key=${googleApikey}`
+    );
+    const data = await response.json();
+
+    // API 응답에서 첫 번째 동영상 정보 추출
+    const video = data.items[0];
+
+    if (!video) {
+      throw new Error("영화 예고편이 없습니다.");
+    }
+
+    // 동영상 정보 반환
+    const videoId = video.id.videoId;
+    const videoLink = `https://www.youtube.com/embed/${videoId}`;
+
+    return videoLink;
+  } catch (error) {
+    console.error("YouTube API 오류:", error);
+    throw error;
+  }
+}
+
+// GET TheMovieDB Now_Playing
+export async function getNowPlaying() {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYTM1OGMyZTFkNDExZjhlYTdiYzNlODNiMTU1MmNjZiIsInN1YiI6IjY2MjlmZTMxZjcwNmRlMDExZjRmZGQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CuaQoR0S4oo5lny0tSRCC7p-siuCDsw9zZjwkKA1yiM",
+    },
+  };
+
+  return fetch(
+    "https://api.themoviedb.org/3/movie/now_playing?language=ko-US&page=1&region=410",
+    options
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data.results;
+    })
+    .catch((error) => console.error("Error fetching data:", error));
 }
