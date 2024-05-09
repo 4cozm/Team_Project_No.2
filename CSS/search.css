@@ -109,14 +109,20 @@ body {
   background-color: var(--backGround);
 }
 
-.card-title {
-  overflow: hidden;
-  height: 200px;
-  font-size: 2vw;
+
+.card-title{
+    overflow: hidden;
+    height: 200px;
+    font-size: 2vw;
+    white-space: nowrap; /*긴 제목 넘어가는거는 잘리게*/
 }
-.card > img {
-  max-width: 300px;
-  height: auto;
+.card>img{
+    max-width: 300px;
+    height: auto;
+    /*사진 가운데 정렬*/
+    margin-left: auto;
+    margin-right: auto;
+
 }
 .card {
   max-height: 600px;

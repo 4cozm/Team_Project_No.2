@@ -104,6 +104,16 @@ function displayWeekTop() {
   });
 }
 
+let move2 = document.querySelector(".weekMovieBtn"); //이번주의 영화 TOP 옆에 전체보기 버튼 구현
+move2.addEventListener("click", () => {
+  
+  window.location.href = "./HTML/search.html?q=이번주영화";
+});
+
+
+
+
+
 function fetchData() {
   //캐싱 구현 함수 @@캐시 만료시간 추가해야함 github issue 확인@@
 
